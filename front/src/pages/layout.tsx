@@ -11,7 +11,6 @@ import { User, HomeShield, HomeUser, Leaf } from "iconoir-react";
 function Log() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { setUserContext } = useUserContext();
 
   return (
     <div className="text-lg font-bold w-40 flex items-center justify-center">
@@ -34,12 +33,7 @@ function Log() {
             <div className="flex flex-col gap-1">
               <div
                 className="flex items-center gap-5 hover:cursor-pointer hover:rounded hover:bg-slate-500 p-2"
-                onClick={() => {
-                  setUserContext({
-                    userAddress: USER_ADDRESSES.ROOF_CONSTRUCT,
-                  });
-                  navigate("/certificate/roof-contruction"), setOpen(false);
-                }}
+                onClick={() => {}}
               >
                 <div className="h-10 w-10 rounded-full bg-violet-400 flex items-center justify-center">
                   <HomeUser className="text-white" width={20} height={20} />
@@ -48,10 +42,7 @@ function Log() {
               </div>
               <div
                 className="flex items-center gap-5 hover:cursor-pointer hover:rounded hover:bg-slate-500 p-2"
-                onClick={() => {
-                  setUserContext({ userAddress: USER_ADDRESSES.ENERGYLUX });
-                  navigate("/certificate/energy"), setOpen(false);
-                }}
+                onClick={() => {}}
               >
                 <div className="h-10 w-10 rounded-full bg-violet-400 flex items-center justify-center">
                   <Leaf className="text-white" width={20} height={20} />
@@ -60,10 +51,7 @@ function Log() {
               </div>
               <div
                 className="flex items-center gap-5 hover:cursor-pointer hover:rounded hover:bg-slate-500 p-2"
-                onClick={() => {
-                  setUserContext({ userAddress: USER_ADDRESSES.FOYER });
-                  navigate("/certificate/insurance"), setOpen(false);
-                }}
+                onClick={() => {}}
               >
                 <div className="h-10 w-10 rounded-full bg-violet-400 flex items-center justify-center">
                   <HomeShield className="text-white" width={20} height={20} />
