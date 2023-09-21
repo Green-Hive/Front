@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import {useForm, useFormState} from 'react-hook-form';
+import AnimatedBee from '../components/AnimatedBee'
+import Logo from '../assets/GreenHive.png';
 
 
 type FormData = {
@@ -15,18 +17,22 @@ const login: React.FC = () => {
   const { errors } = useFormState({ control });
   const [show, setShow] = useState(false);
   
-
-  
-
-
   const onSubmit = handleSubmit(({email, password, remember}) => {
     console.log(email, password, remember);
   })
 
   return (
     <div className="bg-black h-screen w-full flex flex-row ">
-      <div className="w-[60%] bg-[#E0E7CD]"></div>
-      <div className="w-[40%] bg-[#3C4C10] flex flex-col justify-center ">
+      <div className="w-[60%] relative bg-[#3C4C10] flex justify-center">
+        <div className='flex items-center justify-center'>
+        <img src={Logo} alt="Logo" className="w-80 h-80 " />
+        </div>
+          <AnimatedBee position="waggle" className="top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+          <AnimatedBee position="vertical" className="top-1/4 left-1/4" />
+          <AnimatedBee position="horizontal" className="top-1/4 right-1/4" />
+        
+      </div>
+      <div className="w-[40%] bg-[#C5D4BD] flex flex-col justify-center ">
         <div className="max-w-md w-full mx-auto mt-4 bg-white p-12 border border-gray-300">
           <div className="text-left text-3xl ">
             <h1 className="mb-6">Welcome to GreenHive!</h1>
