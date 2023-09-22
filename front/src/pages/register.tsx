@@ -21,8 +21,8 @@ const SignUp: React.FC = () => {
   });
 
   return (
-    <div className="bg-black h-screen w-full flex flex-row">
-      <div className="w-[60%] relative bg-[#3C4C10] flex justify-center">
+    <div className="bg-black h-screen w-full flex flex-col sm:flex-row">
+      <div className="w-full sm:w-3/5 relative bg-[#3C4C10] flex justify-center">
         <div className='flex items-center justify-center'>
           <img src={Logo} alt="Logo" className="w-80 h-80" />
         </div>
@@ -30,7 +30,7 @@ const SignUp: React.FC = () => {
         <AnimatedBee position="vertical" className="top-1/4 left-1/4" />
         <AnimatedBee position="horizontal" className="top-1/4 right-1/4" />
       </div>
-      <div className="w-[40%] bg-[#C5D4BD] flex flex-col justify-center">
+      <div className="w-full sm:w-2/5 bg-[#C5D4BD] flex flex-col justify-center">
         <div className="max-w-md w-full mx-auto mt-4 bg-white p-12 border border-gray-300">
           <div className="text-left text-3xl">
             <h1 className="mb-6">Join GreenHive!</h1>
