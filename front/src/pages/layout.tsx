@@ -1,70 +1,15 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { User, HomeShield, HomeUser, Leaf } from "iconoir-react";
-// import {
-//   USER_ADDRESSES,
-//   UserProvider,
-//   useUserContext,
-// } from "../context/user.context";
-
-function Log() {
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-
-  return (
-    <div className="text-lg font-bold w-40 flex items-center justify-center">
-      <div
-        className="h-12 w-12 rounded-full bg-violet-400 flex items-center justify-center hover:cursor-pointer hover:bg-violet-500 mt-3 transition duration-400"
-        onClick={() => setOpen(!open)}
-      >
-        <User className="text-white" strokeWidth={2} width={24} height={24} />
-      </div>
-      {open && (
-        <div className="absolute top-[80px] right-[100px] w-60 z-50 ">
-          <div className="w-full h-full rounded bg-slate-600 shadow-xl p-5">
-            <div className="w-full flex flex-col items-center justify-center mb-6 gap-3">
-              <div className="h-16 w-16 rounded-full bg-violet-400 flex items-center justify-center hover:cursor-pointer">
-                <User className="text-white" />
-              </div>
-              <p>Authentificated Users</p>
-              <div className="w-full h-[2px] bg-slate-800/20"></div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <div
-                className="flex items-center gap-5 hover:cursor-pointer hover:rounded hover:bg-slate-500 p-2"
-                onClick={() => {}}
-              >
-                <div className="h-10 w-10 rounded-full bg-violet-400 flex items-center justify-center">
-                  <HomeUser className="text-white" width={20} height={20} />
-                </div>
-                <p className="text-base">Roof Construct</p>
-              </div>
-              <div
-                className="flex items-center gap-5 hover:cursor-pointer hover:rounded hover:bg-slate-500 p-2"
-                onClick={() => {}}
-              >
-                <div className="h-10 w-10 rounded-full bg-violet-400 flex items-center justify-center">
-                  <Leaf className="text-white" width={20} height={20} />
-                </div>
-                <p className="text-base">EnergyLUX</p>
-              </div>
-              <div
-                className="flex items-center gap-5 hover:cursor-pointer hover:rounded hover:bg-slate-500 p-2"
-                onClick={() => {}}
-              >
-                <div className="h-10 w-10 rounded-full bg-violet-400 flex items-center justify-center">
-                  <HomeShield className="text-white" width={20} height={20} />
-                </div>
-                <p className="text-base">Foyer</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+import {
+  User,
+  HomeShield,
+  HomeUser,
+  Leaf,
+  Home,
+  Settings,
+} from "iconoir-react";
+import Logo from "../assets/GreenHive.png";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -75,42 +20,49 @@ function NavBar() {
   }, [location.pathname]);
 
   return (
-    <div className="h-16 w-full flex flex-col items-center mb-10 px-20">
-      <div className="flex items-center justify-between h-full w-full">
-        <div
-          className="text-lg font-bold w-40 hover:cursor-pointer flex items-center gap-2"
-          onClick={() => navigate("/")}
-        >
-          <img
-            src="/logoV1.png"
-            className="hover:scale-105 transition duration-800"
-            width={50}
-            height={50}
-          />
-          <p>LuxCertify</p>
-        </div>
-        <div className="h-full w-full flex items-center justify-center gap-10">
-          <p
-            className={`font-semibold hover:cursor-pointer hover:text-violet-400 ${
-              (current === "/" || current.includes("/dwelling")) &&
-              "text-violet-400"
-            }`}
-            onClick={() => navigate("/")}
+    <div className="flex">
+      <div className="w-52 h-screen bg-[#3C4C10] py-5 px-2">
+        <div className="flex flex-col items-center justify-between h-full w-full">
+          <div className="flex flex-col gap-10">
+            <div
+              className="text-lg font-bold w-40 hover:cursor-pointer flex items-center gap-2"
+              onClick={() => navigate("/")}
+            >
+              <img src={Logo} alt="Logo" className="w-40 h-14" />
+
+              <p className="text-white">Greenhive</p>
+            </div>
+            <div className="w-full flex flex-col gap-5 self-start">
+              <div className="flex gap-3 items-center text-white hover:underline hover:cursor-pointer">
+                <Home />
+                <p className="font-semibold text-lg">Dashboard</p>
+              </div>
+              <div className="flex gap-3 items-center text-white hover:underline hover:cursor-pointer">
+                <User />
+                <p className="font-semibold text-lg">Profile</p>
+              </div>
+              <div className="flex gap-3 items-center text-white hover:underline hover:cursor-pointer">
+                <Settings />
+                <p className="font-semibold text-lg">Settings</p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="w-full h-12 rounded-full bg-green-600 flex items-center justify-center hover:cursor-pointer hover:bg-green-700 transition duration-400"
+            onClick={() => undefined}
           >
-            Dwellings
-          </p>
-          {/* <p
-            className={`font-semibold hover:cursor-pointer hover:text-violet-400 ${
-              current === "/access" && "text-violet-400"
-            }`}
-            onClick={() => navigate("/access")}
-          >
-            Access
-          </p> */}
+            <User
+              className="text-white"
+              strokeWidth={2}
+              width={24}
+              height={24}
+            />
+          </div>
         </div>
-        <Log />
       </div>
-      <div className="h-[2px] w-[50%] bg-gray-700"></div>
+      <div className="h-full">
+        <Outlet />
+      </div>
     </div>
   );
 }
@@ -120,7 +72,6 @@ export default function Layout() {
     <div className="w-full">
       {/* <UserProvider> */}
       <NavBar />
-      <Outlet />
       {/* </UserProvider> */}
     </div>
   );
