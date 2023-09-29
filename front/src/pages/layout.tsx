@@ -28,9 +28,9 @@ function NavBar() {
               className="text-lg font-bold w-40 hover:cursor-pointer flex items-center gap-2"
               onClick={() => navigate("/")}
             >
-              <img src={Logo} alt="Logo" className="w-40 h-14" />
+              <img src={Logo} alt="Logo" className="w-40 h-12" />
 
-              <p className="text-white">Greenhive</p>
+              <p className="text-white text-xl">Greenhive</p>
             </div>
             <div className="w-full flex flex-col gap-5 self-start">
               <div className="flex gap-3 items-center text-white hover:underline hover:cursor-pointer">

@@ -33,8 +33,8 @@ const login: React.FC = () => {
         <AnimatedBee position="vertical" className="top-1/4 left-1/4" />
         <AnimatedBee position="horizontal" className="top-1/4 right-1/4" />
       </div>
-      <div className="w-full sm:w-2/5 bg-[#C5D4BD] flex flex-col justify-center ">
-        <div className="max-w-md w-full mx-auto mt-4 bg-white p-12 border border-gray-300">
+      <div className="w-full sm:w-2/5 bg-[#C5D4BD] flex flex-col justify-center">
+        <div className="max-w-md w-full mx-auto mt-4 bg-white p-12 border border-gray-300 rounded-lg">
           <div className="text-left text-3xl ">
             <h1 className="mb-6">Welcome to GreenHive!</h1>
           </div>
@@ -120,7 +120,7 @@ const login: React.FC = () => {
                     className="h-4 w-4 text-blue-300 rounded"
                   />
                   <label htmlFor="" className="ml-2 text-grey-600">
-                    Rememeber me
+                    Remember me
                   </label>
                 </div>
                 <div>
