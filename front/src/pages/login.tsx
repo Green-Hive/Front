@@ -1,8 +1,7 @@
-import React, {useState} from 'react'
-import {useForm, useFormState} from 'react-hook-form';
-import AnimatedBee from '../components/AnimatedBee'
-import Logo from '../assets/GreenHive.png';
-
+import React, { useState } from "react";
+import { useForm, useFormState } from "react-hook-form";
+import AnimatedBee from "../components/AnimatedBee";
+import Logo from "../assets/GreenHive.png";
 
 type FormData = {
   email: string;
@@ -11,26 +10,28 @@ type FormData = {
 };
 
 const login: React.FC = () => {
-
-
-  const { register, handleSubmit, control } = useForm<FormData>({mode: "onChange"});
+  const { register, handleSubmit, control } = useForm<FormData>({
+    mode: "onChange",
+  });
   const { errors } = useFormState({ control });
   const [show, setShow] = useState(false);
-  
-  const onSubmit = handleSubmit(({email, password, remember}) => {
+
+  const onSubmit = handleSubmit(({ email, password, remember }) => {
     console.log(email, password, remember);
-  })
+  });
 
   return (
     <div className="bg-black h-screen w-full flex flex-col sm:flex-row ">
       <div className="w-full sm:w-3/5 relative bg-[#3C4C10] flex justify-center">
-        <div className='flex items-center justify-center'>
-        <img src={Logo} alt="Logo" className="w-80 h-80 " />
+        <div className="flex items-center justify-center">
+          <img src={Logo} alt="Logo" className="w-80 h-80 " />
         </div>
-          <AnimatedBee position="waggle" className="top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
-          <AnimatedBee position="vertical" className="top-1/4 left-1/4" />
-          <AnimatedBee position="horizontal" className="top-1/4 right-1/4" />
-        
+        <AnimatedBee
+          position="waggle"
+          className="top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        />
+        <AnimatedBee position="vertical" className="top-1/4 left-1/4" />
+        <AnimatedBee position="horizontal" className="top-1/4 right-1/4" />
       </div>
       <div className="w-full sm:w-2/5 bg-[#C5D4BD] flex flex-col justify-center ">
         <div className="max-w-md w-full mx-auto mt-4 bg-white p-12 border border-gray-300">
@@ -53,24 +54,58 @@ const login: React.FC = () => {
               />
               {errors.email && "Email is invalid"}
             </div>
-            <div >
+            <div>
               <label className="text-sm font-bold text-left block">
                 Password
               </label>
-              <div className='relative flex items-center' >
-              <input
-                {...register("password")}
-                name="password"
-                type ={show ? 'text' : 'password'}
-                className="w-full p-2 border border-grey-300 rounded "
-              />
-                <button type="button" onClick={() => setShow(!show)} className="absolute right-2 top-1/2 transform -translate-y-1/2">
+              <div className="relative flex items-center">
+                <input
+                  {...register("password")}
+                  name="password"
+                  type={show ? "text" : "password"}
+                  className="w-full p-2 border border-grey-300 rounded "
+                />
+                <button
+                  type="button"
+                  onClick={() => setShow(!show)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                >
                   {!show ? (
-                    
-                    <svg  className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                      ></path>
+                    </svg>
                   ) : (
-                    <svg  className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      ></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      ></path>
+                    </svg>
                   )}
                 </button>
               </div>
@@ -125,14 +160,18 @@ const login: React.FC = () => {
             </div>
           </form>
           <div>
-          <p className="text-center mt-3 text-[14px]">You do not have an account?   
-                <a href="/register" className="text-blue-500"> Register</a>
+            <p className="text-center mt-3 text-[14px]">
+              You do not have an account?
+              <a href="/register" className="text-blue-500">
+                {" "}
+                Register
+              </a>
             </p>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default login
+export default login;
