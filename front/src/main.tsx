@@ -6,6 +6,8 @@ import Layout from "./pages/layout";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import App from "./App";
+import ProfilePage from "./pages/profile";
+import SettingsPage from "./pages/settings";
 
 const router = createBrowserRouter([
   {
@@ -16,17 +18,26 @@ const router = createBrowserRouter([
         index: true,
         element: <App />,
       },
+      {
+        index: true,
+        path: "/profile",
+        element: <ProfilePage />,
+      },
+      {
+        index: true,
+        path: "/settings",
+        element: <SettingsPage />,
+      },
     ],
   },
   {
     path: "/login",
-    element: <Login />
+    element: <Login />,
   },
   {
     path: "/register",
-    element: <Register />
-  }
-
+    element: <Register />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
