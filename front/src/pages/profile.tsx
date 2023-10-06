@@ -1,3 +1,5 @@
+// PROFILE PAGE //
+
 export default function ProfilePage() {
   return (
     <div>

@@ -1,3 +1,5 @@
+// SETTINGS PAGE //
+
 export default function SettingsPage() {
   return (
     <div>

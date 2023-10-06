@@ -5,10 +5,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./pages/layout";
 import Login from "./pages/login";
 import Register from "./pages/register";
-import App from "./App";
+import Dashboard from "./dashboard";
 import ProfilePage from "./pages/profile";
 import SettingsPage from "./pages/settings";
 
+// ROUTER //
+
+//initialisation of the router, list of routes
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,7 +19,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <App />,
+        element: <Dashboard />,
       },
       {
         index: true,

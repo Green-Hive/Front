@@ -3,6 +3,9 @@ import { useForm, useFormState } from "react-hook-form";
 import AnimatedBee from "../components/AnimatedBee";
 import Logo from "../assets/GreenHive.png";
 
+// LOGIN PAGE //
+
+//list of inputs asked for the register form with their types
 type FormData = {
   email: string;
   password: string;
@@ -10,12 +13,14 @@ type FormData = {
 };
 
 const login: React.FC = () => {
+  //initialisation of the form, use the library react hook form
   const { register, handleSubmit, control } = useForm<FormData>({
     mode: "onChange",
   });
   const { errors } = useFormState({ control });
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false); //boolean state to display password or not
 
+  //Function called when button register pressed
   const onSubmit = handleSubmit(({ email, password, remember }) => {
     console.log(email, password, remember);
   });

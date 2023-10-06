@@ -5,11 +5,13 @@ import { User, Home, Settings } from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
 import { AnimatePresence, motion } from "framer-motion";
 
+//navigation bar
 function NavBar() {
   const navigate = useNavigate();
   const [current, setCurrent] = useState("/");
 
   useEffect(() => {
+    //get the current path
     setCurrent(location.pathname);
   }, [location.pathname]);
 
@@ -86,12 +88,11 @@ function NavBar() {
   );
 }
 
+//Layout applied to all routes, to get the navbar etc displayed
 export default function Layout() {
   return (
     <div className="w-full">
-      {/* <UserProvider> */}
       <NavBar />
-      {/* </UserProvider> */}
     </div>
   );
 }
