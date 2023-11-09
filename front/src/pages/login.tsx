@@ -26,7 +26,7 @@ const login: React.FC = () => {
   });
 
   return (
-    <div className="bg-black h-screen w-full flex flex-col sm:flex-row ">
+    <div className="bg-black h-screen w-full flex flex-col sm:flex-row font-custom">
       <div className="w-full sm:w-3/5 relative bg-[#3C4C10] flex justify-center">
         <div className="flex items-center justify-center">
           <img src={Logo} alt="Logo" className="w-80 h-80 " />

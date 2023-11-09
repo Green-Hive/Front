@@ -7,7 +7,7 @@ export default function Dashboard() {
     <div className="p-5">
       <div className="flex items-center gap-2 w-full py-2 px-5 bg-[#3B3B3B] rounded">
         <StatsReport className="text-white" />
-        <p className="text-white text-lg font-semibold">
+        <p className="text-white text-lg font-normal">
           GreenHive - Hive #34U4Y
         </p>
       </div>
