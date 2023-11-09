@@ -68,7 +68,7 @@ function NavBar() {
           </div>
         </div>
       </div>
-      <div className="h-fit min-h-screen w-full bg-[#2C2C2C]">
+      <div className="h-fit min-h-screen w-full bg-[#2C2C2C] font-custom">
         <Outlet />
       </div>
     </div>
