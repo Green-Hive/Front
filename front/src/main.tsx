@@ -8,6 +8,7 @@ import Register from "./pages/register";
 import Dashboard from "./dashboard";
 import ProfilePage from "./pages/profile";
 import SettingsPage from "./pages/settings";
+import NotificationsPage from "./pages/notifications";
 
 // ROUTER //
 
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
         index: true,
         path: "/profile",
         element: <ProfilePage />,
+      },
+      {
+        index: true,
+        path: "/notifications",
+        element: <NotificationsPage />,
       },
       {
         index: true,
