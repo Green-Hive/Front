@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { User, Home, Settings, BellNotification, HalfMoon, SunLight} from "iconoir-react";
+import {
+  User,
+  Home,
+  Settings,
+  BellNotification,
+  HalfMoon,
+  SunLight,
+} from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
-import { AnimatePresence, motion } from "framer-motion";
-import { set } from "react-hook-form";
 
 function NavBar() {
   const navigate = useNavigate();
   const [current, setCurrent] = useState("/");
   const [theme, setTheme] = useState(() => {
     // Check for the theme in localStorage
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme : 'light';
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme ? savedTheme : "light";
   });
-
 
   useEffect(() => {
     //get the current path
@@ -22,21 +26,18 @@ function NavBar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if(theme === "dark"){
+    if (theme === "dark") {
       document.documentElement.classList.add("dark");
-    }
-    else{
+    } else {
       document.documentElement.classList.remove("dark");
     }
 
-    localStorage.setItem('theme', theme);
-
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const handleThemeSwitch = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
-
 
   return (
     <div className="flex">
@@ -54,7 +55,9 @@ function NavBar() {
                 style={{
                   backgroundColor: current === "/" ? "#3C4C10" : undefined,
                 }}
-                className="w-full flex gap-3 items-center justify-center text-white dark:text-black hover:cursor-pointer py-2"
+                className={`w-full flex gap-3 items-center justify-center ${
+                  current === "/" ? "text-white" : "text-white dark:text-black"
+                } hover:cursor-pointer py-2`}
                 onClick={() => navigate("/")}
               >
                 <Home />
@@ -64,7 +67,11 @@ function NavBar() {
                   backgroundColor:
                     current === "/profile" ? "#3C4C10" : undefined,
                 }}
-                className="flex gap-3 justify-center w-full items-center text-white dark:text-black hover:cursor-pointer py-2"
+                className={`flex gap-3 justify-center w-full items-center ${
+                  current === "/profile"
+                    ? "text-white"
+                    : "text-white dark:text-black"
+                } hover:cursor-pointer py-2`}
                 onClick={() => navigate("/profile")}
               >
                 <User />
@@ -74,25 +81,34 @@ function NavBar() {
                   backgroundColor:
                     current === "/notifications" ? "#3C4C10" : undefined,
                 }}
-                className="flex gap-3 justify-center w-full items-center text-white dark:text-black hover:cursor-pointer py-2"
+                className={`flex gap-3 justify-center w-full items-center ${
+                  current === "/notifications"
+                    ? "text-white"
+                    : "text-white dark:text-black"
+                } hover:cursor-pointer py-2`}
                 onClick={() => navigate("/notifications")}
               >
                 <BellNotification width={22} height={22} />
               </div>
             </div>
           </div>
-          <div className="flex-col ">
+          <div className="flex-col w-full">
             <div
               className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
               onClick={() => handleThemeSwitch()}
-            > 
+            >
               {theme === "dark" ? <HalfMoon /> : <SunLight />}
             </div>
             <div
               style={{
-                backgroundColor: current === "/settings" ? "#771FED" : undefined,
+                backgroundColor:
+                  current === "/settings" ? "#3C4C10" : undefined,
               }}
-              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
+              className={`flex w-full items-center justify-center ${
+                current === "/settings"
+                  ? "text-white"
+                  : "text-white dark:text-black"
+              } hover:cursor-pointer w-full py-2 mb-5`}
               onClick={() => navigate("/settings")}
             >
               <Settings />
