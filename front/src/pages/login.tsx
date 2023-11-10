@@ -38,7 +38,7 @@ const login: React.FC = () => {
         <AnimatedBee position="vertical" className="top-1/4 left-1/4" />
         <AnimatedBee position="horizontal" className="top-1/4 right-1/4" />
       </div>
-      <div className="w-full sm:w-2/5 bg-[#C5D4BD] flex flex-col justify-center">
+      <div className="w-full sm:w-2/5 bg-lightGreen flex flex-col justify-center">
         <div className="max-w-md w-full mx-auto mt-4 bg-white p-12 border border-gray-300 rounded-lg">
           <div className="text-left text-3xl ">
             <h1 className="mb-6">Welcome to GreenHive!</h1>
