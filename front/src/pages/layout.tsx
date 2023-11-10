@@ -16,7 +16,7 @@ function NavBar() {
 
   return (
     <div className="flex">
-      <div className="w-16 h-screen bg-[#131315] drop-shadow-lg shadow-xl ">
+      <div className="w-16 h-screen bg-navbar drop-shadow-lg shadow-xl ">
         <div className="flex flex-col items-center justify-between h-full w-full">
           <div className="flex flex-col gap-16 w-full items-center justify-center">
             <div
@@ -68,7 +68,7 @@ function NavBar() {
           </div>
         </div>
       </div>
-      <div className="h-fit min-h-screen w-full bg-[#2C2C2C] font-custom">
+      <div className="h-fit min-h-screen w-full bg-main font-custom">
         <Outlet />
       </div>
     </div>

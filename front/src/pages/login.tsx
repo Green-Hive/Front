@@ -27,7 +27,7 @@ const login: React.FC = () => {
 
   return (
     <div className="bg-black h-screen w-full flex flex-col sm:flex-row font-custom">
-      <div className="w-full sm:w-3/5 relative bg-[#3C4C10] flex justify-center">
+      <div className="w-full sm:w-3/5 relative bg-greenOlive flex justify-center">
         <div className="flex items-center justify-center">
           <img src={Logo} alt="Logo" className="w-80 h-80 " />
         </div>
@@ -135,7 +135,7 @@ const login: React.FC = () => {
                 </div>
               </div>
               <div className="mt-4">
-                <button className="w-full py-2 px-4 bg-[#3C4C10] hover:bg-[#26300A] rounded-lg text-white text-sm mb-3">
+                <button className="w-full py-2 px-4 bg-greenOlive hover:bg-[#26300A] rounded-lg text-white text-sm mb-3">
                   Sign in
                 </button>
                 <div className="px-6 sm:px-0 max-w-sm">
