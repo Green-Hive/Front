@@ -27,7 +27,7 @@ const login: React.FC = () => {
 
   return (
     <div className="bg-black h-screen w-full flex flex-col sm:flex-row font-custom">
-      <div className="w-full sm:w-3/5 relative bg-[#3C4C10] flex justify-center">
+      <div className="w-full sm:w-3/5 relative bg-greenOlive flex justify-center">
         <div className="flex items-center justify-center">
           <img src={Logo} alt="Logo" className="w-80 h-80 " />
         </div>
@@ -38,7 +38,7 @@ const login: React.FC = () => {
         <AnimatedBee position="vertical" className="top-1/4 left-1/4" />
         <AnimatedBee position="horizontal" className="top-1/4 right-1/4" />
       </div>
-      <div className="w-full sm:w-2/5 bg-[#C5D4BD] flex flex-col justify-center">
+      <div className="w-full sm:w-2/5 bg-lightGreen flex flex-col justify-center">
         <div className="max-w-md w-full mx-auto mt-4 bg-white p-12 border border-gray-300 rounded-lg">
           <div className="text-left text-3xl ">
             <h1 className="mb-6">Welcome to GreenHive!</h1>
@@ -135,7 +135,7 @@ const login: React.FC = () => {
                 </div>
               </div>
               <div className="mt-4">
-                <button className="w-full py-2 px-4 bg-[#3C4C10] hover:bg-[#26300A] rounded-lg text-white text-sm mb-3">
+                <button className="w-full py-2 px-4 bg-greenOlive hover:bg-[#26300A] rounded-lg text-white text-sm mb-3">
                   Sign in
                 </button>
                 <div className="px-6 sm:px-0 max-w-sm">
