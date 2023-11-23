@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useForm, useFormState } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
 import AnimatedBee from "../components/AnimatedBee";
 import Logo from "../assets/GreenHive.png";
+
 
 // REGISTER PAGE //
 
@@ -21,13 +23,27 @@ const SignUp: React.FC = () => {
   const { errors } = useFormState({ control });
   const [show, setShow] = useState(false); //boolean state to display password or not
 
+  const { register: registerUser } = useAuth();
+
   //Function called when button register pressed
-  const onSubmit = handleSubmit(
-    ({ email, password, confirmPassword, remember }) => {
-      console.log(email, password, confirmPassword, remember);
-      // TODO: Add logic to handle sign up
+  const onSubmit = handleSubmit(async (data) => {
+    const { email, password, confirmPassword } = data;
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
     }
-  );
+
+    try {
+      // Call the register method from useAuth
+      await registerUser(email, password, "Samir"); // Replace "Your Name" with actual name field if you have one
+      // Handle success, e.g., redirect to login page or dashboard
+    } catch (error) {
+      // Handle errors, e.g., show error message
+      console.error(error);
+    }
+});
 
   return (
     <div className="bg-black h-screen w-full flex flex-col sm:flex-row font-custom">

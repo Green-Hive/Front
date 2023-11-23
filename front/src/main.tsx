@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AuthProvider } from './context/AuthContext';
+import SessionCheck from './components/SessionCheck'; // Import the new component
 import Layout from "./pages/layout";
 import Login from "./pages/login";
 import Register from "./pages/register";
@@ -10,7 +12,10 @@ import ProfilePage from "./pages/profile";
 import SettingsPage from "./pages/settings";
 import NotificationsPage from "./pages/notifications";
 
+
 // ROUTER //
+
+
 
 //initialisation of the router, list of routes
 const router = createBrowserRouter([
@@ -47,10 +52,15 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
-]);
+  
+]
+);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />{" "}
+    <AuthProvider>
+      <SessionCheck />{" "}
+      <RouterProvider router={router} />{" "}
+    </AuthProvider>
   </React.StrictMode>
 );
