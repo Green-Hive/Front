@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Assuming this is the correct path to your AuthContext
@@ -14,12 +14,14 @@ type FormData = {
   remember: boolean;
 };
 
-const login: React.FC = () => {
+function login() {
   //initialisation of the form, use the library react hook form
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, user, loading } = useAuth();
 
-
+  useEffect(() => {
+    if (user && !loading) navigate("/");
+  }, [user, loading]);
 
   const { register, handleSubmit, control } = useForm<FormData>({
     mode: "onChange",
@@ -33,7 +35,6 @@ const login: React.FC = () => {
       // Call the login method from your AuthContext
       await login(email, password);
       // Redirect to the dashboard or show success message
-      navigate('/profile');
     } catch (error) {
       // Handle login error, show error message
     }
@@ -191,6 +192,6 @@ const login: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default login;

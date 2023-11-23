@@ -1,9 +1,13 @@
-import React, {useEffect} from "react";
+import React, { Fragment, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AuthProvider } from './context/AuthContext';
-import SessionCheck from './components/SessionCheck'; // Import the new component
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import SessionCheck from "./components/SessionCheck"; // Import the new component
 import Layout from "./pages/layout";
 import Login from "./pages/login";
 import Register from "./pages/register";
@@ -12,16 +16,29 @@ import ProfilePage from "./pages/profile";
 import SettingsPage from "./pages/settings";
 import NotificationsPage from "./pages/notifications";
 
-
 // ROUTER //
 
+function ProtectedRoute(props: { children: any }) {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!user && !loading) navigate("/login");
+  }, [user, loading]);
+
+  if (loading || !user) return <Fragment></Fragment>;
+  return <Fragment>{props.children}</Fragment>;
+}
 
 //initialisation of the router, list of routes
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -52,15 +69,12 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
-  
-]
-);
+]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
-      <SessionCheck />{" "}
-      <RouterProvider router={router} />{" "}
+      <SessionCheck /> <RouterProvider router={router} />{" "}
     </AuthProvider>
   </React.StrictMode>
 );
