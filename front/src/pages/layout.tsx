@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { User, Home, Settings, BellNotification, HalfMoon, SunLight} from "iconoir-react";
+import { useAuth } from '../context/AuthContext';
+import { User, Home, Settings, BellNotification, HalfMoon, SunLight, LogOut } from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
 import { AnimatePresence, motion } from "framer-motion";
 import { set } from "react-hook-form";
@@ -9,12 +10,17 @@ import { set } from "react-hook-form";
 function NavBar() {
   const navigate = useNavigate();
   const [current, setCurrent] = useState("/");
+  const { user, logout } = useAuth();
   const [theme, setTheme] = useState(() => {
     // Check for the theme in localStorage
     const savedTheme = localStorage.getItem('theme');
     return savedTheme ? savedTheme : 'light';
   });
 
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login'); // Redirect to the login page after logging out
+  };
 
   useEffect(() => {
     //get the current path
@@ -85,18 +91,27 @@ function NavBar() {
             <div
               className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
               onClick={() => handleThemeSwitch()}
-            > 
+            >
               {theme === "dark" ? <HalfMoon /> : <SunLight />}
             </div>
             <div
               style={{
-                backgroundColor: current === "/settings" ? "#771FED" : undefined,
+                backgroundColor:
+                  current === "/settings" ? "#771FED" : undefined,
               }}
               className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
               onClick={() => navigate("/settings")}
             >
               <Settings />
             </div>
+            {user && (
+            <div
+              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
+              onClick={handleLogout}
+            >
+              <LogOut />
+            </div>
+            )}
           </div>
         </div>
       </div>

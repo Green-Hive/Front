@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useForm, useFormState } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Assuming this is the correct path to your AuthContext
 import AnimatedBee from "../components/AnimatedBee";
 import Logo from "../assets/GreenHive.png";
 
@@ -14,6 +16,11 @@ type FormData = {
 
 const login: React.FC = () => {
   //initialisation of the form, use the library react hook form
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+
+
   const { register, handleSubmit, control } = useForm<FormData>({
     mode: "onChange",
   });
@@ -21,8 +28,15 @@ const login: React.FC = () => {
   const [show, setShow] = useState(false); //boolean state to display password or not
 
   //Function called when button register pressed
-  const onSubmit = handleSubmit(({ email, password, remember }) => {
-    console.log(email, password, remember);
+  const onSubmit = handleSubmit(async ({ email, password, remember }) => {
+    try {
+      // Call the login method from your AuthContext
+      await login(email, password);
+      // Redirect to the dashboard or show success message
+      navigate('/profile');
+    } catch (error) {
+      // Handle login error, show error message
+    }
   });
 
   return (
@@ -50,7 +64,7 @@ const login: React.FC = () => {
                 {...register("email", {
                   required: true,
                   minLength: 6,
-                  maxLength: 20,
+                  maxLength: 30,
                 })}
                 style={{ borderColor: errors.email ? "red" : "" }}
                 name="email"
