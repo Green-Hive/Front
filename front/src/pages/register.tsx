@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import AnimatedBee from "../components/AnimatedBee";
 import Logo from "../assets/GreenHive.png";
 
@@ -11,23 +12,29 @@ import Logo from "../assets/GreenHive.png";
 type FormData = {
   email: string;
   password: string;
+  name: string;
   confirmPassword: string;
   remember: boolean;
 };
 
-const SignUp: React.FC = () => {
+  function SignUp() {
   //initialisation of the form, use the library react hook form
   const { register, handleSubmit, control } = useForm<FormData>({
     mode: "onChange",
   });
   const { errors } = useFormState({ control });
   const [show, setShow] = useState(false); //boolean state to display password or not
+  const navigate = useNavigate();
 
-  const { register: registerUser } = useAuth();
+  const { register: registerUser , googleLogin, user, loading } = useAuth();
+
+  useEffect(() => {
+    if (user && !loading) navigate("/");
+  }, [user, loading]);
 
   //Function called when button register pressed
   const onSubmit = handleSubmit(async (data) => {
-    const { email, password, confirmPassword } = data;
+    const { email, password, confirmPassword, name } = data;
 
     // Check if passwords match
     if (password !== confirmPassword) {
@@ -37,7 +44,7 @@ const SignUp: React.FC = () => {
 
     try {
       // Call the register method from useAuth
-      await registerUser(email, password, "Samir"); // Replace "Your Name" with actual name field if you have one
+      await registerUser(email, password, name); // Replace "Your Name" with actual name field if you have one
       // Handle success, e.g., redirect to login page or dashboard
     } catch (error) {
       // Handle errors, e.g., show error message
@@ -74,6 +81,18 @@ const SignUp: React.FC = () => {
               />
               {errors.email && (
                 <span className="text-red-500">Email is invalid</span>
+              )}
+            </div>
+            <div className="text-left">
+              <label className="text-sm font-bold text-left block">Name</label>
+              <input
+                {...register("name", { required: true })}
+                name="name"
+                type="text"
+                className="w-full p-2 border border-grey-300 rounded mt-1"
+              />
+              {errors.name && (
+                <span className="text-red-500">name is invalid</span>
               )}
             </div>
             <div>
@@ -208,6 +227,7 @@ const SignUp: React.FC = () => {
               <div className="px-6 sm:px-0 max-w-sm">
                 <button
                   type="button"
+                  onClick={googleLogin}
                   className="text-white w-full  bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
                 >
                   <svg

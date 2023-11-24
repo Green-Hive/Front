@@ -17,7 +17,7 @@ type FormData = {
 function login() {
   //initialisation of the form, use the library react hook form
   const navigate = useNavigate();
-  const { login, user, loading } = useAuth();
+  const { login, user, loading, googleLogin  } = useAuth();
 
   useEffect(() => {
     if (user && !loading) navigate("/");
@@ -39,6 +39,7 @@ function login() {
       // Handle login error, show error message
     }
   });
+
 
   return (
     <div className="bg-black h-screen w-full flex flex-col sm:flex-row font-custom">
@@ -156,6 +157,7 @@ function login() {
                 <div className="px-6 sm:px-0 max-w-sm">
                   <button
                     type="button"
+                    onClick={googleLogin}
                     className="text-white w-full  bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
                   >
                     <svg
