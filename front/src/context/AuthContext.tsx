@@ -14,6 +14,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   getLoginStatus: () => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>; // Add the register method
+  googleLogin: () => void;
   loading: boolean;
 }
 
@@ -41,10 +42,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (email: string, password: string, name: string) => {
     const response = await apiClient.register(email, password, name);
-    setUser(response.data.user);
-    setLoading(true);
+    setUser(response.data);
+    setLoading(false);
   };
 
+  const googleLogin = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.requestGoogleAuth();
+      // Assuming the backend responds with the URL for Google OAuth.
+      const authUrl = response.data.url; // Make sure 'url' is the correct field returned by your backend.
+      // Redirect the user to the Google Auth URL.
+      window.location.href = authUrl;
+    } catch (error) {
+      setLoading(false);
+      console.error('Error initiating Google Auth:', error);
+    }
+  };
   const getLoginStatus = useCallback(async () => {
     try {
       setLoading(true);
@@ -64,7 +78,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register, getLoginStatus, loading }}
+      value={{ user, login, logout, register, getLoginStatus, googleLogin, loading }}
     >
       {children}
     </AuthContext.Provider>

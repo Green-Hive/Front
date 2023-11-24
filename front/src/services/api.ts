@@ -16,8 +16,10 @@ export const apiClient = {
   getLoginStatus: () => {
     return axios.get(`${API_BASE_URL}/me`);
   },
-  googleAuth: () => {
-    return axios.post(`${API_BASE_URL}/api/auth/google`);
+  
+  requestGoogleAuth: () => {
+
+    return axios.post(`${API_BASE_URL}/api/auth/google/`);
   },
   // Updated register function
   register: (email: string, password: string, name: string) => {
