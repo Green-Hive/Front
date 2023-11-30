@@ -1,6 +1,7 @@
 // DASHBOARD PAGE //
 
 import { StatsReport } from "iconoir-react";
+import { useState } from "react";
 import {
   Area,
   AreaChart,
@@ -182,17 +183,33 @@ const data04 = [
 ];
 
 export default function Dashboard() {
+  const [time, setTime] = useState<string>("Daily");
   return (
     <div className="p-5">
-      <div className="flex items-center gap-2 w-full py-2 px-5  bg-Light-gray dark:bg-[#E5E5E5] rounded">
-        <StatsReport className="text-white dark:text-black" />
-        <p className="text-white dark:text-black text-lg font-normal">
-          GreenHive - Hive 
-        </p>
+      <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
+        <div className="flex gap-2 items-center">
+          <StatsReport className="text-white dark:text-black" />
+          <p className="text-white dark:text-black text-lg font-normal">
+            GreenHive - Hive
+          </p>
+        </div>
+        <div className="pr-5">
+          <select
+            className="w-40 p-2 rounded bg-main text-white"
+            onChange={(e) => setTime(e.target.value)}
+          >
+            <option>Daily</option>
+            <option>Weekly</option>
+            <option>Monthly</option>
+            <option>Yearly</option>
+          </select>
+        </div>
       </div>
       <div className="mt-10 w-full grid grid-cols-2 gap-5">
         <div className="flex flex-col items-center gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">Température interne</p>
+          <p className="text-title dark:text-[#292929] font-semibold">
+            Température interne
+          </p>
           <AreaChart
             width={680}
             height={260}
@@ -230,7 +247,9 @@ export default function Dashboard() {
           </AreaChart>
         </div>
         <div className="flex flex-col items-center justify-between gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">Humidité externe</p>
+          <p className="text-title dark:text-[#292929] font-semibold">
+            Humidité externe
+          </p>
           <ScatterChart
             width={680}
             height={255}
@@ -269,7 +288,9 @@ export default function Dashboard() {
           </ScatterChart>
         </div>
         <div className="flex flex-col items-center justify-between gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">Humidité externe</p>
+          <p className="text-title dark:text-[#292929] font-semibold">
+            Humidité externe
+          </p>
           <ScatterChart
             width={680}
             height={255}
@@ -308,7 +329,9 @@ export default function Dashboard() {
           </ScatterChart>
         </div>
         <div className="flex flex-col justify-between items-center gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">Température interne</p>
+          <p className="text-title dark:text-[#292929] font-semibold">
+            Température interne
+          </p>
           <AreaChart
             width={680}
             height={260}
