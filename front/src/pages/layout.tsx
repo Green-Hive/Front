@@ -94,7 +94,7 @@ function NavBar() {
           </div>
           <div className="flex-col ">
             <div
-              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
+              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5 px-2"
               onClick={() => handleThemeSwitch()}
             >
               {theme === "dark" ? <HalfMoon /> : <SunLight />}
@@ -102,9 +102,9 @@ function NavBar() {
             <div
               style={{
                 backgroundColor:
-                  current === "/settings" ? "#771FED" : undefined,
+                  current === "/settings" ? "#3C4C10" : undefined,
               }}
-              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
+              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5 rounded-lg"
               onClick={() => navigate("/settings")}
             >
               <Settings />
