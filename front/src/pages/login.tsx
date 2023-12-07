@@ -42,7 +42,7 @@ function login() {
       });
     } catch (error) {
       pushSnackbar({
-        type: "success",
+        type: "error",
         message: "Unable to login, please try again.",
       });
     }

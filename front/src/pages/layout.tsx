@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from '../context/AuthContext';
-import { User, Home, Settings, BellNotification, HalfMoon, SunLight, LogOut } from "iconoir-react";
+import { useAuth } from "../context/AuthContext";
+import {
+  User,
+  Home,
+  Settings,
+  BellNotification,
+  HalfMoon,
+  SunLight,
+  LogOut,
+} from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
 import { AnimatePresence, motion } from "framer-motion";
 import { set } from "react-hook-form";
@@ -13,13 +21,13 @@ function NavBar() {
   const { user, logout } = useAuth();
   const [theme, setTheme] = useState(() => {
     // Check for the theme in localStorage
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme : 'light';
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme ? savedTheme : "light";
   });
 
   const handleLogout = async () => {
     await logout();
-    navigate('/login'); // Redirect to the login page after logging out
+    navigate("/login"); // Redirect to the login page after logging out
   };
 
   useEffect(() => {
@@ -28,25 +36,22 @@ function NavBar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if(theme === "dark"){
+    if (theme === "dark") {
       document.documentElement.classList.add("dark");
-    }
-    else{
+    } else {
       document.documentElement.classList.remove("dark");
     }
 
-    localStorage.setItem('theme', theme);
-
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const handleThemeSwitch = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-
   return (
     <div className="flex">
-      <div className="w-16 h-screen bg-navbar dark:bg-[#F5F5F5] drop-shadow-lg shadow-xl ">
+      <div className="w-16 h-screen bg-navbar dark:bg-[#F5F5F5] drop-shadow-lg shadow-xl fixed">
         <div className="flex flex-col items-center justify-between h-full w-full">
           <div className="flex flex-col gap-16 w-full items-center justify-center">
             <div
@@ -89,7 +94,7 @@ function NavBar() {
           </div>
           <div className="flex-col ">
             <div
-              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
+              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5 px-2"
               onClick={() => handleThemeSwitch()}
             >
               {theme === "dark" ? <HalfMoon /> : <SunLight />}
@@ -97,25 +102,25 @@ function NavBar() {
             <div
               style={{
                 backgroundColor:
-                  current === "/settings" ? "#771FED" : undefined,
+                  current === "/settings" ? "#3C4C10" : undefined,
               }}
-              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
+              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5 rounded-lg"
               onClick={() => navigate("/settings")}
             >
               <Settings />
             </div>
             {user && (
-            <div
-              className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
-              onClick={handleLogout}
-            >
-              <LogOut />
-            </div>
+              <div
+                className="flex items-center justify-center text-white dark:text-black hover:cursor-pointer w-full py-2 mb-5"
+                onClick={handleLogout}
+              >
+                <LogOut />
+              </div>
             )}
           </div>
         </div>
       </div>
-      <div className="h-fit min-h-screen w-full bg-main dark:bg-[#F0F0F0] font-custom">
+      <div className="h-fit min-h-screen w-full bg-main dark:bg-[#F0F0F0] font-custom ml-16">
         <Outlet />
       </div>
     </div>

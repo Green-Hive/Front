@@ -5,6 +5,8 @@ import { useState } from "react";
 import {
   Area,
   AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
   Legend,
   Line,
@@ -21,164 +23,174 @@ import {
 
 const data = [
   {
-    name: "10h",
-    uv: 4000,
-    pv: 2400,
+    name: "Monday",
+    inside: 20,
+    outside: 17,
     amt: 2400,
   },
   {
-    name: "11h",
-    uv: 3000,
-    pv: 1398,
+    name: "Tuesday",
+    inside: 22,
+    outside: 19,
     amt: 2210,
   },
   {
-    name: "12h",
-    uv: 2000,
-    pv: 9800,
+    name: "Wednesday",
+    inside: 22,
+    outside: 17,
     amt: 2290,
   },
   {
-    name: "13h",
-    uv: 2780,
-    pv: 3908,
+    name: "Thursday",
+    inside: 20,
+    outside: 13,
     amt: 2000,
   },
   {
-    name: "14h",
-    uv: 1890,
-    pv: 4800,
+    name: "Friday",
+    inside: 21,
+    outside: 16,
     amt: 2181,
   },
   {
-    name: "15h",
-    uv: 2390,
-    pv: 3800,
+    name: "Saturday",
+    inside: 23,
+    outside: 18,
     amt: 2500,
   },
   {
-    name: "16h",
-    uv: 3490,
-    pv: 4300,
+    name: "Sunday",
+    inside: 21,
+    outside: 17,
     amt: 2100,
   },
 ];
 
-const data01 = [
+const data2 = [
   {
-    x: 100,
-    y: 200,
-    z: 200,
+    name: "Monday",
+    inside: 40,
+    outside: 70,
+    amt: 2400,
   },
   {
-    x: 120,
-    y: 100,
-    z: 260,
+    name: "Tuesday",
+    inside: 32,
+    outside: 80,
+    amt: 2210,
   },
   {
-    x: 170,
-    y: 300,
-    z: 400,
+    name: "Wednesday",
+    inside: 35,
+    outside: 85,
+    amt: 2290,
   },
   {
-    x: 140,
-    y: 250,
-    z: 280,
+    name: "Thursday",
+    inside: 23,
+    outside: 63,
+    amt: 2000,
   },
   {
-    x: 150,
-    y: 400,
-    z: 500,
+    name: "Friday",
+    inside: 35,
+    outside: 78,
+    amt: 2181,
   },
   {
-    x: 110,
-    y: 280,
-    z: 200,
-  },
-];
-const data02 = [
-  {
-    x: 200,
-    y: 260,
-    z: 240,
+    name: "Saturday",
+    inside: 27,
+    outside: 67,
+    amt: 2500,
   },
   {
-    x: 240,
-    y: 290,
-    z: 220,
-  },
-  {
-    x: 190,
-    y: 290,
-    z: 250,
-  },
-  {
-    x: 198,
-    y: 250,
-    z: 210,
-  },
-  {
-    x: 180,
-    y: 280,
-    z: 260,
-  },
-  {
-    x: 210,
-    y: 220,
-    z: 230,
+    name: "Sunday",
+    inside: 19,
+    outside: 57,
+    amt: 2100,
   },
 ];
 
-const data03 = [
+const data3 = [
   {
-    name: "Group A",
-    value: 400,
+    name: "Monday",
+    morning: 32.5,
+    afternoon: 34.3,
+    amt: 2400,
   },
   {
-    name: "Group B",
-    value: 300,
+    name: "Tuesday",
+    morning: 32.9,
+    afternoon: 33.8,
+    amt: 2210,
   },
   {
-    name: "Group C",
-    value: 300,
+    name: "Wednesday",
+    morning: 33.1,
+    afternoon: 34.3,
+    amt: 2290,
   },
   {
-    name: "Group D",
-    value: 200,
+    name: "Thursday",
+    morning: 32.2,
+    afternoon: 32.9,
+    amt: 2000,
   },
   {
-    name: "Group E",
-    value: 278,
+    name: "Friday",
+    morning: 33.3,
+    afternoon: 35.0,
+    amt: 2181,
   },
   {
-    name: "Group F",
-    value: 189,
+    name: "Saturday",
+    morning: 33.4,
+    afternoon: 34.9,
+    amt: 2500,
+  },
+  {
+    name: "Sunday",
+    morning: 32.6,
+    afternoon: 33.8,
+    amt: 2100,
   },
 ];
-const data04 = [
+
+const data4 = [
   {
-    name: "Group A",
-    value: 2400,
+    name: "Monday",
+    pression: 740,
+    amt: 2400,
   },
   {
-    name: "Group B",
-    value: 4567,
+    name: "Tuesday",
+    pression: 755,
+    amt: 2210,
   },
   {
-    name: "Group C",
-    value: 1398,
+    name: "Wednesday",
+    pression: 765,
+    amt: 2290,
   },
   {
-    name: "Group D",
-    value: 9800,
+    name: "Thursday",
+    pression: 754,
+    amt: 2000,
   },
   {
-    name: "Group E",
-    value: 3908,
+    name: "Friday",
+    pression: 720,
+    amt: 2181,
   },
   {
-    name: "Group F",
-    value: 4800,
+    name: "Saturday",
+    pression: 722,
+    amt: 2500,
+  },
+  {
+    name: "Sunday",
+    pression: 735,
+    amt: 2100,
   },
 ];
 
@@ -198,21 +210,21 @@ export default function Dashboard() {
             className="w-40 p-2 rounded bg-main text-white"
             onChange={(e) => setTime(e.target.value)}
           >
-            <option>Daily</option>
             <option>Weekly</option>
+            <option>Daily</option>
             <option>Monthly</option>
             <option>Yearly</option>
           </select>
         </div>
       </div>
-      <div className="mt-10 w-full grid grid-cols-2 gap-5">
-        <div className="flex flex-col items-center gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">
-            Température interne
+      <div className="mt-5 w-full grid grid-cols-2 gap-5">
+        <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
+          <p className="text-title dark:text-[#292929]">
+            Température moyenne (°C)
           </p>
           <AreaChart
             width={680}
-            height={260}
+            height={240}
             data={data}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
@@ -221,121 +233,39 @@ export default function Dashboard() {
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="name" fontSize={12} />
-            <YAxis fontSize={12} />
+            <YAxis domain={[10, 28]} fontSize={12} />
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <Tooltip />
+            <Legend />
             <Area
               type="monotone"
-              dataKey="uv"
+              dataKey="inside"
               stroke="#B1F81A"
               fillOpacity={0.6}
               fill="url(#colorUv)"
             />
             <Area
               type="monotone"
-              dataKey="pv"
+              dataKey="outside"
               stroke="#82ca9d"
-              fillOpacity={0.3}
-              fill="url(#colorPv)"
+              fillOpacity={0.2}
+              fill="#82ca9d"
             />
           </AreaChart>
         </div>
-        <div className="flex flex-col items-center justify-between gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">
-            Humidité externe
-          </p>
-          <ScatterChart
-            width={680}
-            height={255}
-            margin={{
-              top: 20,
-              right: 20,
-              bottom: 10,
-              left: 10,
-            }}
-          >
-            <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
-            <XAxis
-              fontSize={12}
-              dataKey="x"
-              type="number"
-              name="stature"
-              unit="cm"
-            />
-            <YAxis
-              fontSize={12}
-              dataKey="y"
-              type="number"
-              name="weight"
-              unit="kg"
-            />
-            <ZAxis
-              dataKey="z"
-              type="number"
-              range={[64, 144]}
-              name="score"
-              unit="km"
-            />
-            <Tooltip cursor={{ strokeDasharray: "1 1" }} />
-            <Scatter name="A school" data={data01} fill="#B1F81A" />
-            <Scatter name="B school" data={data02} fill="#82ca9d" />
-          </ScatterChart>
-        </div>
-        <div className="flex flex-col items-center justify-between gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">
-            Humidité externe
-          </p>
-          <ScatterChart
-            width={680}
-            height={255}
-            margin={{
-              top: 20,
-              right: 20,
-              bottom: 10,
-              left: 10,
-            }}
-          >
-            <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
-            <XAxis
-              fontSize={12}
-              dataKey="x"
-              type="number"
-              name="stature"
-              unit="cm"
-            />
-            <YAxis
-              fontSize={12}
-              dataKey="y"
-              type="number"
-              name="weight"
-              unit="kg"
-            />
-            <ZAxis
-              dataKey="z"
-              type="number"
-              range={[64, 144]}
-              name="score"
-              unit="km"
-            />
-            <Tooltip cursor={{ strokeDasharray: "1 1" }} />
-            <Scatter name="A school" data={data01} fill="#B1F81A" />
-            <Scatter name="B school" data={data02} fill="#82ca9d" />
-          </ScatterChart>
-        </div>
-        <div className="flex flex-col justify-between items-center gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">
-            Température interne
-          </p>
+
+        <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
+          <p className="text-title dark:text-[#292929]">Humidité moyenne (%)</p>
           <AreaChart
             width={680}
-            height={260}
-            data={data}
+            height={240}
+            data={data2}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -343,30 +273,70 @@ export default function Dashboard() {
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="name" fontSize={12} />
             <YAxis fontSize={12} />
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <Tooltip />
+            <Legend />
             <Area
               type="monotone"
-              dataKey="uv"
+              dataKey="outside"
               stroke="#B1F81A"
               fillOpacity={0.6}
               fill="url(#colorUv)"
             />
             <Area
               type="monotone"
-              dataKey="pv"
+              dataKey="inside"
               stroke="#82ca9d"
-              fillOpacity={0.3}
-              fill="url(#colorPv)"
+              fillOpacity={0.2}
+              fill="#82ca9d"
             />
           </AreaChart>
+        </div>
+
+        <div className="flex flex-col items-center justify-between w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
+          <p className="text-title dark:text-[#292929]">
+            Poids de la ruche (kg)
+          </p>
+          <BarChart width={650} height={240} data={data3}>
+            <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
+            <XAxis dataKey="name" fontSize={12} />
+            <YAxis domain={[30, 36]} fontSize={12} />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="morning" fill="#B1F81A" />
+            <Bar dataKey="afternoon" fill="#82ca9d" />
+          </BarChart>
+        </div>
+
+        <div className="flex flex-col justify-between items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
+          <p className="text-title dark:text-[#292929]">
+            Pression atmosphérique (mmHg)
+          </p>
+          <LineChart
+            width={700}
+            height={250}
+            data={data4}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
+            <XAxis dataKey="name" fontSize={12} />
+            <YAxis fontSize={12} domain={[650, 800]} />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="pression"
+              stroke="#B1F81A"
+              strokeWidth={3}
+            />
+          </LineChart>
         </div>
       </div>
     </div>
