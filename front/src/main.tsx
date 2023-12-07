@@ -15,6 +15,7 @@ import Dashboard from "./dashboard";
 import ProfilePage from "./pages/profile";
 import SettingsPage from "./pages/settings";
 import NotificationsPage from "./pages/notifications";
+import SnackbarsContext from "./context/snackbars.context";
 
 // ROUTER //
 
@@ -73,8 +74,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <AuthProvider>
-      <SessionCheck /> <RouterProvider router={router} />{" "}
-    </AuthProvider>
+    <SnackbarsContext>
+      <AuthProvider>
+        <SessionCheck /> <RouterProvider router={router} />{" "}
+      </AuthProvider>
+    </SnackbarsContext>
   </React.StrictMode>
 );

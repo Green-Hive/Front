@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import AnimatedBee from "../components/AnimatedBee";
 import Logo from "../assets/GreenHive.png";
-
+import { useSnackbarsContext } from "../context/snackbars.context";
 
 // REGISTER PAGE //
 
@@ -17,16 +17,17 @@ type FormData = {
   remember: boolean;
 };
 
-  function SignUp() {
+function SignUp() {
   //initialisation of the form, use the library react hook form
   const { register, handleSubmit, control } = useForm<FormData>({
     mode: "onChange",
   });
   const { errors } = useFormState({ control });
+  const { pushSnackbar } = useSnackbarsContext();
   const [show, setShow] = useState(false); //boolean state to display password or not
   const navigate = useNavigate();
 
-  const { register: registerUser , googleLogin, user, loading } = useAuth();
+  const { register: registerUser, googleLogin, user, loading } = useAuth();
 
   useEffect(() => {
     if (user && !loading) navigate("/");
@@ -44,13 +45,19 @@ type FormData = {
 
     try {
       // Call the register method from useAuth
-      await registerUser(email, password, name); // Replace "Your Name" with actual name field if you have one
-      // Handle success, e.g., redirect to login page or dashboard
+      await registerUser(email, password, name);
+      pushSnackbar({
+        type: "success",
+        message: "You have been successfully registered.",
+      });
     } catch (error) {
-      // Handle errors, e.g., show error message
+      pushSnackbar({
+        type: "error",
+        message: "Unable to register, please try again.",
+      });
       console.error(error);
     }
-});
+  });
 
   return (
     <div className="bg-black h-screen w-full flex flex-col sm:flex-row font-custom">
@@ -263,6 +270,6 @@ type FormData = {
       </div>
     </div>
   );
-};
+}
 
 export default SignUp;
