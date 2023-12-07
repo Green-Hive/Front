@@ -5,6 +5,8 @@ import { useState } from "react";
 import {
   Area,
   AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
   Legend,
   Line,
@@ -205,10 +207,10 @@ export default function Dashboard() {
           </select>
         </div>
       </div>
-      <div className="mt-10 w-full grid grid-cols-2 gap-5">
-        <div className="flex flex-col items-center gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
+      <div className="mt-5 w-full grid grid-cols-2 gap-5">
+        <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
           <p className="text-title dark:text-[#292929] font-semibold">
-            Température interne
+            Températures
           </p>
           <AreaChart
             width={680}
@@ -221,9 +223,9 @@ export default function Dashboard() {
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="name" fontSize={12} />
@@ -240,97 +242,15 @@ export default function Dashboard() {
             <Area
               type="monotone"
               dataKey="pv"
-              stroke="#82ca9d"
-              fillOpacity={0.3}
-              fill="url(#colorPv)"
+              stroke="#B1F81A"
+              fillOpacity={0.6}
+              fill="url(#colorUv)"
             />
           </AreaChart>
         </div>
-        <div className="flex flex-col items-center justify-between gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
+        <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
           <p className="text-title dark:text-[#292929] font-semibold">
-            Humidité externe
-          </p>
-          <ScatterChart
-            width={680}
-            height={255}
-            margin={{
-              top: 20,
-              right: 20,
-              bottom: 10,
-              left: 10,
-            }}
-          >
-            <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
-            <XAxis
-              fontSize={12}
-              dataKey="x"
-              type="number"
-              name="stature"
-              unit="cm"
-            />
-            <YAxis
-              fontSize={12}
-              dataKey="y"
-              type="number"
-              name="weight"
-              unit="kg"
-            />
-            <ZAxis
-              dataKey="z"
-              type="number"
-              range={[64, 144]}
-              name="score"
-              unit="km"
-            />
-            <Tooltip cursor={{ strokeDasharray: "1 1" }} />
-            <Scatter name="A school" data={data01} fill="#B1F81A" />
-            <Scatter name="B school" data={data02} fill="#82ca9d" />
-          </ScatterChart>
-        </div>
-        <div className="flex flex-col items-center justify-between gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">
-            Humidité externe
-          </p>
-          <ScatterChart
-            width={680}
-            height={255}
-            margin={{
-              top: 20,
-              right: 20,
-              bottom: 10,
-              left: 10,
-            }}
-          >
-            <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
-            <XAxis
-              fontSize={12}
-              dataKey="x"
-              type="number"
-              name="stature"
-              unit="cm"
-            />
-            <YAxis
-              fontSize={12}
-              dataKey="y"
-              type="number"
-              name="weight"
-              unit="kg"
-            />
-            <ZAxis
-              dataKey="z"
-              type="number"
-              range={[64, 144]}
-              name="score"
-              unit="km"
-            />
-            <Tooltip cursor={{ strokeDasharray: "1 1" }} />
-            <Scatter name="A school" data={data01} fill="#B1F81A" />
-            <Scatter name="B school" data={data02} fill="#82ca9d" />
-          </ScatterChart>
-        </div>
-        <div className="flex flex-col justify-between items-center gap-2 w-full p-2 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
-          <p className="text-title dark:text-[#292929] font-semibold">
-            Température interne
+            Humidités
           </p>
           <AreaChart
             width={680}
@@ -343,9 +263,9 @@ export default function Dashboard() {
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="name" fontSize={12} />
@@ -362,11 +282,49 @@ export default function Dashboard() {
             <Area
               type="monotone"
               dataKey="pv"
-              stroke="#82ca9d"
-              fillOpacity={0.3}
-              fill="url(#colorPv)"
+              stroke="#B1F81A"
+              fillOpacity={0.6}
+              fill="url(#colorUv)"
             />
           </AreaChart>
+        </div>
+        <div className="flex flex-col items-center justify-between gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
+          <p className="text-title dark:text-[#292929] font-semibold mb-5">
+            Poids de la ruche
+          </p>
+          <BarChart width={600} height={220} data={data}>
+            <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="pv" fill="#8884d8" />
+            <Bar dataKey="uv" fill="#82ca9d" />
+          </BarChart>
+        </div>
+
+        <div className="flex flex-col justify-between items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px]">
+          <p className="text-title dark:text-[#292929] font-semibold">
+            Pression
+          </p>
+          <LineChart
+            width={730}
+            height={250}
+            data={data}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="pv"
+              stroke="#8884d8"
+              strokeWidth={3}
+            />
+          </LineChart>
         </div>
       </div>
     </div>
