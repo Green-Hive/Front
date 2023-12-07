@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Assuming this is the correct path to your AuthContext
 import AnimatedBee from "../components/AnimatedBee";
 import Logo from "../assets/GreenHive.png";
+import { useSnackbarsContext } from "../context/snackbars.context";
 
 // LOGIN PAGE //
 
@@ -17,7 +18,8 @@ type FormData = {
 function login() {
   //initialisation of the form, use the library react hook form
   const navigate = useNavigate();
-  const { login, user, loading, googleLogin  } = useAuth();
+  const { login, user, loading, googleLogin } = useAuth();
+  const { pushSnackbar } = useSnackbarsContext();
 
   useEffect(() => {
     if (user && !loading) navigate("/");
@@ -34,18 +36,23 @@ function login() {
     try {
       // Call the login method from your AuthContext
       await login(email, password);
-      // Redirect to the dashboard or show success message
+      pushSnackbar({
+        type: "success",
+        message: "You have been successfully logged.",
+      });
     } catch (error) {
-      // Handle login error, show error message
+      pushSnackbar({
+        type: "success",
+        message: "Unable to login, please try again.",
+      });
     }
   });
-
 
   return (
     <div className="bg-black h-screen w-full flex flex-col sm:flex-row font-custom">
       <div className="w-full sm:w-3/5 relative bg-greenOlive flex justify-center">
         <div className="flex items-center justify-center">
-          <img src={Logo} alt="Logo" className="w-80 h-80 " />
+          <img src={Logo} alt="Logo" className="w-80 h-80" />
         </div>
         <AnimatedBee
           position="waggle"
