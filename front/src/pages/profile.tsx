@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 import { User } from "iconoir-react";
 import axios from "axios";
@@ -24,6 +24,10 @@ const ProfilePage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (user) setNotificationsEnabled(user.notified);
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-main dark:bg-[#F5F5F5] flex justify-center items-start py-12 px-4 sm:px-6 lg:px-8">
