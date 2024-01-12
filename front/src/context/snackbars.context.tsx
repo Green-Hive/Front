@@ -72,7 +72,7 @@ export default function SnackbarsContext({
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSnackbars(snackbars.slice(1));
-    }, 5000);
+    }, 3000);
 
     if (!snackbars.length) clearTimeout(timeout);
     return () => {
