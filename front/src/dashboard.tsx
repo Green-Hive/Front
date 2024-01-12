@@ -40,7 +40,12 @@ export default function Dashboard() {
     getHives();
   }, []);
 
-  if (!data) return <Spinner />;
+  if (!data)
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Spinner />;
+      </div>
+    );
   return (
     <div className="p-5">
       <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
