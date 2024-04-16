@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { AuthProvider, useAuth } from "../context/AuthContext";
+import { useEffect, useState } from "react";
+import {  useAuth } from "../context/AuthContext";
 import { User } from "iconoir-react";
 import axios from "axios";
 import { API_BASE_URL } from "../services/api";

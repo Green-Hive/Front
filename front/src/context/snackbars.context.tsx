@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { motion, AnimatePresence, useIsPresent } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, WarningCircle, WarningTriangle } from "iconoir-react";
 
 interface SnackbarType {

@@ -17,9 +17,9 @@ const SettingsPage = () => {
     setIsEditingEmail(true);
   };
 
-  const handleEditPassword = () => {
-    setIsEditingPassword(true);
-  };
+  // const handleEditPassword = () => {
+  //   setIsEditingPassword(true);
+  // };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);

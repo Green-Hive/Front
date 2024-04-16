@@ -11,20 +11,15 @@ import {
   Legend,
   Line,
   LineChart,
-  Pie,
-  PieChart,
-  Scatter,
-  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
-  ZAxis,
 } from "recharts";
 import { apiClient } from "./services/api";
 import Spinner from "./components/spinner";
 
 export default function Dashboard() {
-  const [time, setTime] = useState<string>("Daily");
+  // const [time, setTime] = useState<string>("Daily");
   const [data, setData] = useState<any>(undefined);
   const [name, setName] = useState<string | undefined>(undefined);
 
@@ -58,7 +53,7 @@ export default function Dashboard() {
         <div className="pr-5">
           <select
             className="w-40 p-2 rounded bg-main dark:bg-white text-white dark:text-black"
-            onChange={(e) => setTime(e.target.value)}
+            // onChange={(e) => setTime(e.target.value)}
           >
             <option>Weekly</option>
             <option>Daily</option>

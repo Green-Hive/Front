@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm, useFormState } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Assuming this is the correct path to your AuthContext
@@ -32,7 +32,7 @@ function login() {
   const [show, setShow] = useState(false); //boolean state to display password or not
 
   //Function called when button register pressed
-  const onSubmit = handleSubmit(async ({ email, password, remember }) => {
+  const onSubmit = handleSubmit(async ({ email, password }) => {
     try {
       // Call the login method from your AuthContext
       await login(email, password);

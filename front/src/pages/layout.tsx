@@ -12,8 +12,8 @@ import {
   LogOut,
 } from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
-import { AnimatePresence, motion } from "framer-motion";
-import { set } from "react-hook-form";
+// import { AnimatePresence, motion } from "framer-motion";
+// import { set } from "react-hook-form";
 
 function NavBar() {
   const navigate = useNavigate();
