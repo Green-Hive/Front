@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { motion, AnimatePresence, useIsPresent } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, WarningCircle, WarningTriangle } from "iconoir-react";
 
 interface SnackbarType {
@@ -72,7 +72,7 @@ export default function SnackbarsContext({
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSnackbars(snackbars.slice(1));
-    }, 5000);
+    }, 3000);
 
     if (!snackbars.length) clearTimeout(timeout);
     return () => {

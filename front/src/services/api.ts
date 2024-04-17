@@ -1,7 +1,9 @@
 // src/services/api.ts
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000"; // Default URL as a fallback
+export const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:4000";
+//"https://apitest-production-e7e6.up.railway.app"; // Default URL as a fallback
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -16,10 +18,12 @@ export const apiClient = {
   getLoginStatus: () => {
     return axios.get(`${API_BASE_URL}/me`);
   },
-  
-  requestGoogleAuth: () => {
 
+  requestGoogleAuth: () => {
     return axios.post(`${API_BASE_URL}/api/auth/google/`);
+  },
+  getHives: () => {
+    return axios.get(`${API_BASE_URL}/api/hives`);
   },
   // Updated register function
   register: (email: string, password: string, name: string) => {
