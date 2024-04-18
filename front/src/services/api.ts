@@ -16,7 +16,7 @@ export const apiClient = {
     return axios.post(`${API_BASE_URL}/api/auth/logout`);
   },
   getLoginStatus: () => {
-    return axios.get(`${API_BASE_URL}/me`);
+    return axios.get(`${API_BASE_URL}/api/auth/me`);
   },
 
   requestGoogleAuth: () => {
