@@ -20,13 +20,14 @@ import Spinner from "./components/spinner";
 
 export default function Dashboard() {
   // const [time, setTime] = useState<string>("Daily");
-  const [data, setData] = useState<any>(undefined);
+  // const [data, setData] = useState<any>(undefined);
   const [name, setName] = useState<string | undefined>(undefined);
 
   const getHives = async () => {
     const res = await apiClient.getHives();
     if (res && res.data && res.data.length) {
-      setData(res.data[0].data);
+      console.log(res.data);
+      // setData(res.data[0].data);
       setName(res.data[0].name);
     }
   };
@@ -35,12 +36,12 @@ export default function Dashboard() {
     getHives();
   }, []);
 
-  if (!data)
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <Spinner />;
-      </div>
-    );
+  // if (!data)
+  //   return (
+  //     <div className="h-screen flex items-center justify-center">
+  //       <Spinner />;
+  //     </div>
+  //   );
   return (
     <div className="p-5">
       <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
@@ -70,7 +71,8 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={data.temperature}
+            data={[]}
+            // data={data.temperature}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -110,7 +112,8 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={data.humidite}
+            data={[]}
+            // data={data.humidite}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -149,7 +152,12 @@ export default function Dashboard() {
           <p className="text-title dark:text-[#292929]">
             Poids de la ruche (kg)
           </p>
-          <BarChart width={650} height={240} data={data.poids}>
+          <BarChart
+            width={650}
+            height={240}
+            data={[]}
+            // data={data.poids}
+          >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <XAxis dataKey="name" fontSize={12} />
             <YAxis domain={[30, 36]} fontSize={12} />
@@ -167,7 +175,8 @@ export default function Dashboard() {
           <LineChart
             width={650}
             height={240}
-            data={data.pression}
+            data={[]}
+            // data={data.pression}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
