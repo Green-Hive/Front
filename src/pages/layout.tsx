@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
   User,
   Home,
   Settings,
   BellNotification,
-  HalfMoon,
-  SunLight,
   LogOut,
 } from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
-// import { AnimatePresence, motion } from "framer-motion";
-// import { set } from "react-hook-form";
 
 function NavBar() {
   const navigate = useNavigate();

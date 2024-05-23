@@ -1,4 +1,4 @@
-import { InfoEmpty, WarningHexagon, WarningTriangle } from "iconoir-react";
+import { InfoEmpty,  WarningTriangle } from "iconoir-react";
 import { useAuth } from "../context/AuthContext";
 
 function NotificationError(props: { title: string; description: string }) {
