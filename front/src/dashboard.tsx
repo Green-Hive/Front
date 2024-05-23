@@ -15,40 +15,47 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { apiClient } from "./services/api";
+import { API_BASE_URL, apiClient } from "./services/api";
 import Spinner from "./components/spinner";
+import axios from "axios";
 
 export default function Dashboard() {
-  // const [time, setTime] = useState<string>("Daily");
-  // const [data, setData] = useState<any>(undefined);
-  const [name, setName] = useState<string | undefined>(undefined);
+  const [hive, setHive] = useState<any>(undefined);
 
   const getHives = async () => {
     const res = await apiClient.getHives();
     if (res && res.data && res.data.length) {
-      console.log(res.data);
-      // setData(res.data[0].data);
-      setName(res.data[0].name);
+      setHive(res.data[0]);
     }
   };
+
+  const getHiveData = async () => {
+    if (!hive) return;
+    const data = await axios.get(`${API_BASE_URL}/api/hives/data/`);
+    if (data && data.data) console.log(data.data);
+  };
+
+  useEffect(() => {
+    if (hive) getHiveData();
+  }, [hive]);
 
   useEffect(() => {
     getHives();
   }, []);
 
-  // if (!data)
-  //   return (
-  //     <div className="h-screen flex items-center justify-center">
-  //       <Spinner />;
-  //     </div>
-  //   );
+  if (!hive)
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Spinner />;
+      </div>
+    );
   return (
     <div className="p-5">
       <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
         <div className="flex gap-2 items-center">
           <StatsReport className="text-white dark:text-black" />
           <p className="text-white dark:text-black text-lg font-normal">
-            {name}
+            {hive.name}
           </p>
         </div>
         <div className="pr-5">

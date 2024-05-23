@@ -17,9 +17,9 @@ const SettingsPage = () => {
     setIsEditingEmail(true);
   };
 
-  // const handleEditPassword = () => {
-  //   setIsEditingPassword(true);
-  // };
+  const handleEditPassword = () => {
+    setIsEditingPassword(true);
+  };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -55,8 +55,8 @@ const SettingsPage = () => {
       <div className="w-full max-w-[900px] space-y-8">
         <div className=" bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-6">
           {/* Account Email Section */}
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-white dark:text-black mb-4">
+          <div className="mb-4">
+            <h2 className="text-lg font-semibold text-white dark:text-black mb-6">
               Account Settings
             </h2>
             <div className="flex items-center justify-between">
@@ -77,7 +77,10 @@ const SettingsPage = () => {
                 </>
               ) : (
                 <>
-                  <p className="text-sm text-white dark:text-black">{email}</p>
+                  <p className="text-sm text-white dark:text-black">
+                    <span className="font-semibold text-xs">Email: </span>
+                    {email}
+                  </p>
                   <FiEdit2
                     onClick={handleEditEmail}
                     className="ml-2 text-white cursor-pointer dark:text-black"
@@ -107,19 +110,18 @@ const SettingsPage = () => {
                 </>
               ) : (
                 <>
-                  <p className="text-sm text-white dark:text-black">********</p>
-                  {/* <FiEdit2
+                  <p className="text-sm text-white dark:text-black">
+                    <span className="font-semibold text-xs">Password: </span>
+                    ********
+                  </p>
+                  <FiEdit2
                     onClick={handleEditPassword}
                     className="ml-2 text-white cursor-pointer dark:text-black"
-                  /> */}
+                  />
                 </>
               )}
             </div>
           </div>
-
-          {/* Additional Settings Suggestions */}
-          {/* You could add settings like notification preferences, account deletion, 
-               language selection, etc. depending on the functionality of your app. */}
         </div>
       </div>
     </div>

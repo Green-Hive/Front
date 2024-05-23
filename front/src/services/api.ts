@@ -1,8 +1,7 @@
 // src/services/api.ts
 import axios from "axios";
 
-export const API_BASE_URL =
-  import.meta.env.VITE_APP_API_URL;
+export const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 //"https://apitest-production-e7e6.up.railway.app"; // Default URL as a fallback
 
 axios.defaults.withCredentials = true;
