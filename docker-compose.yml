@@ -6,6 +6,6 @@ services:
     container_name: green_hive_app
     restart: always
     ports:
-      - '5173:5173'
+      - '4173:4173'
     env_file:
       - .env
