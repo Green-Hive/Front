@@ -18,7 +18,7 @@ function NotificationError(props: { title: string; description: string }) {
 
 function NotificationInfo(props: { title: string; description: string }) {
   return (
-    <div className="bg-indigo-400 text-indigo-800 flex justify-between py-3 px-5 rounded-lg items-start">
+    <div className="bg-[#E5D26F] text-yellow-800 flex justify-between py-3 px-5 rounded-lg items-start">
       <div className="flex gap-6 items-center">
         <InfoEmpty width={32} height={32} strokeWidth={2} />
         <div className="flex flex-col">
@@ -38,15 +38,15 @@ export default function NotificationsPage() {
     return (
       <div className="mt-6 px-4 sm:px-6 lg:px-8 flex flex-col gap">
         <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-6">
-          <p className="text-lg font-semibold text-white">Notifications</p>
-          <p className="mt-4 text-white/80">Your notifications are disabled</p>
+          <p className="text-lg font-semibold text-white">Alerts</p>
+          <p className="mt-4 text-white/80">Your alerts are disabled</p>
         </div>
       </div>
     );
   return (
     <div className="mt-6 px-4 sm:px-6 lg:px-8 flex flex-col gap">
       <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-6">
-        <p className="text-lg font-semibold text-white">Notifications</p>
+        <p className="text-lg font-semibold text-white">Alerts</p>
         <div className="flex flex-col gap-5 mt-5">
           <NotificationError
             title={"Baisse anormale de température"}

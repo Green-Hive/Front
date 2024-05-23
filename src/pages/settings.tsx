@@ -77,8 +77,8 @@ const SettingsPage = () => {
                 </>
               ) : (
                 <>
-                  <p className="text-sm text-white dark:text-black">
-                    <span className="font-semibold text-xs">Email: </span>
+                  <p className="text-base text-white dark:text-black">
+                    <span className="font-semibold text-sm">Email: </span>
                     {email}
                   </p>
                   <FiEdit2
@@ -110,8 +110,8 @@ const SettingsPage = () => {
                 </>
               ) : (
                 <>
-                  <p className="text-sm text-white dark:text-black">
-                    <span className="font-semibold text-xs">Password: </span>
+                  <p className="text-base text-white dark:text-black">
+                    <span className="font-semibold text-sm">Password: </span>
                     ********
                   </p>
                   <FiEdit2

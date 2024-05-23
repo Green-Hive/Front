@@ -7,6 +7,8 @@ import {
   Settings,
   BellNotification,
   LogOut,
+  UserStar,
+  OpenSelectHandGesture,
 } from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
 
@@ -37,7 +39,7 @@ function NavBar() {
               <img src={Logo} alt="Logo" className="w-10 h-10" />
             </div>
             <div className="w-full flex flex-col gap-5 justify-center items-center px-1">
-              <div
+            {user.role !== "ADMIN" && <div
                 style={{
                   backgroundColor: current === "/" ? "#3C4C10" : undefined,
                   color: current === "/" ? "#FFFFFF" : undefined,
@@ -46,7 +48,18 @@ function NavBar() {
                 onClick={() => navigate("/")}
               >
                 <Home />
-              </div>
+              </div>  }
+              {user.role !== "ADMIN" && <div
+                style={{
+                  backgroundColor:
+                    current === "/notifications" ? "#3C4C10" : undefined,
+                  color: current === "/notifications" ? "#FFFFFF" : undefined,
+                }}
+                className="flex gap-3 justify-center w-full items-center text-white dark:text-black  hover:cursor-pointer py-2 rounded-lg"
+                onClick={() => navigate("/notifications")}
+              >
+                <BellNotification width={22} height={22} />
+              </div> }
               <div
                 style={{
                   backgroundColor:
@@ -58,28 +71,29 @@ function NavBar() {
               >
                 <User />
               </div>
-              <div
-                style={{
-                  backgroundColor:
-                    current === "/notifications" ? "#3C4C10" : undefined,
-                  color: current === "/notifications" ? "#FFFFFF" : undefined,
-                }}
-                className="flex gap-3 justify-center w-full items-center text-white dark:text-black  hover:cursor-pointer py-2 rounded-lg"
-                onClick={() => navigate("/notifications")}
-              >
-                <BellNotification width={22} height={22} />
-              </div>
+             
               <div
                 style={{
                   backgroundColor:
                     current === "/settings" ? "#3C4C10" : undefined,
                   color: current === "/settings" ? "#FFFFFF" : undefined,
                 }}
-                className="flex items-center justify-center text-white dark:text-black  hover:cursor-pointer w-full py-2 mb-5 rounded-lg"
+                className="flex items-center justify-center text-white dark:text-black  hover:cursor-pointer w-full py-2 rounded-lg"
                 onClick={() => navigate("/settings")}
               >
                 <Settings />
               </div>
+              {user.role === "ADMIN" && <div
+                style={{
+                  backgroundColor:
+                    current === "/admin" ? "#3C4C10" : undefined,
+                  color: current === "/admin" ? "#FFFFFF" : undefined,
+                }}
+                className={`flex items-center justify-center text-white dark:text-black  hover:cursor-pointer w-full py-2 ${user.role !== "ADMIN" && "mt-5"} rounded-lg`}
+                onClick={() => navigate("/admin")}
+              >
+                <OpenSelectHandGesture />
+              </div> }
             </div>
           </div>
           <div className="flex-col ">

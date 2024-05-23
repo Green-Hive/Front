@@ -17,7 +17,21 @@ export const apiClient = {
   getLoginStatus: () => {
     return axios.get(`${API_BASE_URL}/api/auth/me`);
   },
-
+  createUser: (name: string, email: string, password: string) => {
+    return axios.post(`${API_BASE_URL}/api/users`, { name, email, password });
+  },
+  createHive: (name: string, description: string, userId: string) => {
+    return axios.post(`${API_BASE_URL}/api/hives`, { name, description, userId });
+  },
+  getUsers: () => {
+    return axios.get(`${API_BASE_URL}/api/users`);
+  },
+  getUser: (id: string) => {
+    return axios.get(`${API_BASE_URL}/api/users/${id}`);
+  },
+  getUserHive: (userId: string) => {
+    return axios.get(`${API_BASE_URL}/api/hives/userHive/${userId}`);
+  },
   requestGoogleAuth: () => {
     return axios.post(`${API_BASE_URL}/api/auth/google/`);
   },

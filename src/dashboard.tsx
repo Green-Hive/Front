@@ -1,6 +1,6 @@
 // DASHBOARD PAGE //
 
-import { StatsReport } from "iconoir-react";
+import { EditPencil, StatsReport } from "iconoir-react";
 import { useEffect, useState } from "react";
 import {
   Area,
@@ -16,7 +16,6 @@ import {
   YAxis,
 } from "recharts";
 import { API_BASE_URL, apiClient } from "./services/api";
-import Spinner from "./components/spinner";
 import axios from "axios";
 
 export default function Dashboard() {
@@ -46,17 +45,19 @@ export default function Dashboard() {
   if (!hive)
     return (
       <div className="h-screen flex items-center justify-center">
-        <Spinner />;
+        <p>No hive linked to your account</p>
       </div>
     );
   return (
     <div className="p-5">
+    
       <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
         <div className="flex gap-2 items-center">
           <StatsReport className="text-white dark:text-black" />
           <p className="text-white dark:text-black text-lg font-normal">
             {hive.name}
           </p>
+          <EditPencil width={20} height={20} className="text-white dark:text-black ml-3" />
         </div>
         <div className="pr-5">
           <select
@@ -184,7 +185,7 @@ export default function Dashboard() {
             height={240}
             data={[]}
             // data={data.pression}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <XAxis dataKey="name" fontSize={12} />
