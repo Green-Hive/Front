@@ -32,7 +32,7 @@ function Item({
         damping: 40,
       }}
       className={`py-2 px-3 rounded w-[300px] flex gap-3 items-center
-      ${snackbar.type === "success" && "bg-green-500 text-white fill-white"}  
+      ${snackbar.type === "success" && "bg-green-600 text-white fill-white"}  
       ${snackbar.type === "error" && "bg-red-500 text-white fill-white"}  
       ${snackbar.type === "warning" && "bg-orange-400 text-white fill-white"}  
       ${snackbar.type === "info" && "bg-blue-500 text-white fill-white"}  

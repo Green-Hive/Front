@@ -16,6 +16,8 @@ import ProfilePage from "./pages/profile";
 import SettingsPage from "./pages/settings";
 import NotificationsPage from "./pages/notifications";
 import SnackbarsContext from "./context/snackbars.context";
+import AdminPage from "./pages/admin.page";
+import AdminUserPage from "./pages/adminUserPage";
 
 // ROUTER //
 
@@ -30,6 +32,7 @@ function ProtectedRoute(props: { children: any }) {
   if (loading || !user) return <Fragment></Fragment>;
   return <Fragment>{props.children}</Fragment>;
 }
+
 
 //initialisation of the router, list of routes
 const router = createBrowserRouter([
@@ -47,18 +50,28 @@ const router = createBrowserRouter([
       },
       {
         index: true,
-        path: "/profile",
-        element: <ProfilePage />,
-      },
-      {
-        index: true,
         path: "/notifications",
         element: <NotificationsPage />,
       },
       {
         index: true,
+        path: "/profile",
+        element: <ProfilePage />,
+      },
+      {
+        index: true,
         path: "/settings",
         element: <SettingsPage />,
+      },
+      {
+        index: true,
+        path: "/admin",
+        element: <AdminPage />,
+      },
+      {
+        index: true,
+        path: `/admin/:id`,
+        element: <AdminUserPage />,
       },
     ],
   },
