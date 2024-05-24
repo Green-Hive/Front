@@ -7,7 +7,6 @@ import {
   Settings,
   BellNotification,
   LogOut,
-  OpenSelectHandGesture,
   PcCheck,
 } from "iconoir-react";
 import Logo from "../assets/GreenHive.png";

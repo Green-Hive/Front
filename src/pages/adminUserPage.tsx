@@ -169,7 +169,7 @@ function Hive(props: {hive: {id: string, name: string, description: string, crea
 
     return (
         <div key={props.hive.id} className="p-5 bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg h-56 w-full flex items-center gap-8">
-            {deleteOpen && <DeleteHiveModal hive={props.hive} getHives={() => props.getHives()} setOpen={(e:any) => setDeleteOpen(false)}/>}
+            {deleteOpen && <DeleteHiveModal hive={props.hive} getHives={() => props.getHives()} setOpen={() => setDeleteOpen(false)}/>}
             <div className="w-52 h-52">
                 <img
                     src={Hive2}
