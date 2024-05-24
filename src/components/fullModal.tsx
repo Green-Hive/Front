@@ -1,4 +1,4 @@
-import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Backdrop from "./backdrop";
 import { Edit } from "iconoir-react";
 
@@ -18,10 +18,8 @@ export function FullModalHeader({
 }
 
 export default function FullModal({
-  className,
   children,
 }: {
-  className?: string;
   children?: React.ReactNode;
 }) {
   return (

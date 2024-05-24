@@ -32,18 +32,6 @@ function ProtectedRoute(props: { children: any }) {
   if (loading || !user) return <Fragment></Fragment>;
   return <Fragment>{props.children}</Fragment>;
 }
-function AdminProtectedRoute(props: { children: any }) {
-  const { user, loading } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user && !loading) navigate("/login");
-    if (user && user.role !== "ADMIN") navigate("/");
-  }, [user, loading]);
-
-  if (loading || !user) return <Fragment></Fragment>;
-  return <Fragment>{props.children}</Fragment>;
-}
 
 
 //initialisation of the router, list of routes

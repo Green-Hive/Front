@@ -17,15 +17,19 @@ import {
 } from "recharts";
 import { API_BASE_URL, apiClient } from "./services/api";
 import axios from "axios";
+import { useAuth } from "./context/AuthContext";
 
 export default function Dashboard() {
   const [hive, setHive] = useState<any>(undefined);
+  const { user } = useAuth();
 
   const getHives = async () => {
-    const res = await apiClient.getHives();
-    if (res && res.data && res.data.length) {
-      setHive(res.data[0]);
-    }
+    if (user)  {
+      const res = await apiClient.getUserAccessibleHives(user.id);
+      if (res && res.data && res.data.length) {
+        setHive(res.data[0]);
+      }
+  }
   };
 
   const getHiveData = async () => {

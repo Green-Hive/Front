@@ -1,15 +1,11 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import Backdrop from "./backdrop";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Modal({
-  onClose,
   children,
-  className,
 }: {
-  onClose: () => void;
   children?: ReactNode;
-  className?: string;
 }) {
   return (
     <AnimatePresence>
@@ -26,7 +22,7 @@ export default function Modal({
           exit={{ scale: 0 }}
           transition={{ ease: "easeOut", duration: 0.08 }}
           className={
-            "bg-surface-100 md:w-[40%] max-w-[90%] padding rounded absolute max-h-[85%] "
+            "bg-Light-gray dark:bg-[#E5E5E5] md:w-[40%] max-w-[90%] padding rounded absolute max-h-[85%] "
           }
         >
           {children}

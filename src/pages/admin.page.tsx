@@ -118,13 +118,13 @@ export default function AdminPage() {
             <CreateUserModal getUsers={() => getUsers()} setOpen={(e:boolean) => setOpen(e)}/>
                 }
             <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-5">
-                <div className="flex justify-between items-center border-b border-gray-300/20 pb-5">
+                <div className="flex justify-between items-center border-b border-gray-300/20 pb-4">
                     <p className="text-lg font-semibold text-white">Users</p>
                     <button className="bg-[#3C4C10] text-white px-5 py-1 rounded flex items-center justify-center gap-2" onClick={() => setOpen(true)}><Plus className="w-4 h-4" strokeWidth={3}/>Add user</button>
                 </div>
                 <div>
                     <table className="w-full">
-                        <thead className="pb-3">
+                        <thead className="">
                             <tr className="text-xs text-gray-200/80">
                                 <th className="text-left"></th>
                                 <th className="text-left"></th>
@@ -137,11 +137,11 @@ export default function AdminPage() {
                                 onClick={() => navigate(`/admin/${user.id}`)}>
                                     <td>
                                         <div className="flex gap-4 items-center">
-                                            <div className="bg-[#3C4C10]  rounded px-2 py-1">
+                                            <div className="bg-[#3C4C10]/70 border border-gray-300/20 rounded px-2 py-1">
                                                 <p>{user.name[0].toLocaleUpperCase() + user.name[1].toLocaleUpperCase()}</p>
                                             </div>
                                             <p>
-                                            {user.name.toLocaleUpperCase()}
+                                            {user.name}
                                             </p>
                                         </div>
                                     </td>

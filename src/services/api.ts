@@ -32,11 +32,23 @@ export const apiClient = {
   getUserHive: (userId: string) => {
     return axios.get(`${API_BASE_URL}/api/hives/userHive/${userId}`);
   },
+  giveAccessToHive: (hiveId: string) => {
+    return axios.patch(`${API_BASE_URL}/api/hives/${hiveId}/giveAccess`);
+  },
+  removeAccessToHive: (hiveId: string) => {
+    return axios.patch(`${API_BASE_URL}/api/hives/${hiveId}/removeAccess`);
+  },
+  getUserAccessibleHives: (userId: string) => {
+    return axios.get(`${API_BASE_URL}/api/hives/${userId}/accessible`);
+  },
   requestGoogleAuth: () => {
     return axios.post(`${API_BASE_URL}/api/auth/google/`);
   },
   getHives: () => {
     return axios.get(`${API_BASE_URL}/api/hives`);
+  },
+  deleteHive: (id: string) => {
+    return axios.delete(`${API_BASE_URL}/api/hives/${id}`);
   },
   // Updated register function
   register: (email: string, password: string, name: string) => {
