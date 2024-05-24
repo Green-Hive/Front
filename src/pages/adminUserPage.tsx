@@ -107,7 +107,7 @@ export default function AdminUserPage() {
     if (!user) return <Spinner />
     return (
         <div className="mt-6 px-4 sm:px-6 lg:px-8 flex flex-col gap">
-            <div className="mb-5 text-gray-100/80 border rounded-lg border-gray-400/80 px-3 py-2 w-fit" onClick={() => navigate(-1)}>
+            <div className="mb-5 text-gray-100/80 border rounded-lg border-gray-400/80 px-3 py-2 w-fit hover:cursor-pointer" onClick={() => navigate(-1)}>
                 <button className="flex items-center gap-3">
                     <NavArrowLeft width={20} height={20} strokeWidth={2}></NavArrowLeft>
                     <p>Back</p>
@@ -134,7 +134,7 @@ export default function AdminUserPage() {
                     {hives.map((hive: {id: string, name: string, description: string, createdAt: string}) => (
                         <div key={hive.id} className="p-5 bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg h-56 w-full flex items-center gap-10">
                             <img
-                                src={hive.name === "Hive de test" ? Hive : Hive2}
+                                src={Hive2}
                                 alt="Bee"
                                 className="w-56 h-56"
                             />
