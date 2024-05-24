@@ -8,6 +8,7 @@ import {
   BellNotification,
   LogOut,
   OpenSelectHandGesture,
+  PcCheck,
 } from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
 
@@ -91,7 +92,7 @@ function NavBar() {
                 className={`flex items-center justify-center text-white dark:text-black  hover:cursor-pointer w-full py-2 ${user.role !== "ADMIN" && "mt-5"} rounded-lg`}
                 onClick={() => navigate("/admin")}
               >
-                <OpenSelectHandGesture />
+                <PcCheck />
               </div> }
             </div>
           </div>

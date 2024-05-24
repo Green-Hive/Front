@@ -113,14 +113,15 @@ export default function AdminPage() {
     }, []);
 
     return (
-        <div className="mt-6 px-4 sm:px-6 lg:px-8 flex flex-col gap">
+        <div className="mt-6 px-4 sm:px-6 lg:px-8 flex flex-col gap container mx-auto">
+            <p className="text-white text-3xl mb-7">{"Admin panel"}</p>
             {open && 
             <CreateUserModal getUsers={() => getUsers()} setOpen={(e:boolean) => setOpen(e)}/>
                 }
-            <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-5">
-                <div className="flex justify-between items-center border-b border-gray-300/20 pb-4">
-                    <p className="text-lg font-semibold text-white">Users</p>
-                    <button className="bg-[#3C4C10] text-white px-5 py-1 rounded flex items-center justify-center gap-2" onClick={() => setOpen(true)}><Plus className="w-4 h-4" strokeWidth={3}/>Add user</button>
+            <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-4">
+                <div className="flex justify-between items-center border-b border-gray-300/20 pb-3">
+                    <p className="text-lg font-semibold text-white">Users registered</p>
+                    <button className="bg-[#3C4C10] text-white px-5 py-2 rounded flex items-center justify-center gap-2" onClick={() => setOpen(true)}><Plus className="w-4 h-4" strokeWidth={3}/>Create user</button>
                 </div>
                 <div>
                     <table className="w-full">
@@ -136,7 +137,7 @@ export default function AdminPage() {
                                 <tr key={user.id} className="border-b border-gray-300/10 h-14 w-full hover:cursor-pointer hover:bg-[#3C4C10]/30"
                                 onClick={() => navigate(`/admin/${user.id}`)}>
                                     <td>
-                                        <div className="flex gap-4 items-center">
+                                        <div className="flex gap-4 items-center pl-3">
                                             <div className="bg-[#3C4C10]/70 border border-gray-300/20 rounded px-2 py-1">
                                                 <p>{user.name[0].toLocaleUpperCase() + user.name[1].toLocaleUpperCase()}</p>
                                             </div>

@@ -51,8 +51,9 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-main dark:bg-[#F5F5F5] flex justify-center items-start py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-[900px] space-y-8">
+    <div className="min-h-screen bg-main dark:bg-[#F5F5F5] flex flex-col px-4 sm:px-6 lg:px-8 py-12 container mx-auto">
+      <p className="text-white text-3xl mb-8">{"Settings"}</p>
+      <div className="w-full space-y-8">
         <div className=" bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-6">
           {/* Account Email Section */}
           <div className="mb-4">

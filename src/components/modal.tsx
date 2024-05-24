@@ -22,7 +22,7 @@ export default function Modal({
           exit={{ scale: 0 }}
           transition={{ ease: "easeOut", duration: 0.08 }}
           className={
-            "bg-Light-gray dark:bg-[#E5E5E5] md:w-[40%] max-w-[90%] padding rounded absolute max-h-[85%] "
+            "bg-Light-gray dark:bg-[#E5E5E5] md:w-[40%] max-w-[35%] padding rounded absolute max-h-[85%] "
           }
         >
           {children}

@@ -47,6 +47,9 @@ export const apiClient = {
   getHives: () => {
     return axios.get(`${API_BASE_URL}/api/hives`);
   },
+  linkHiveToUser: (hiveId: string, userId: string) => {
+    return axios.post(`${API_BASE_URL}/api/hives/${hiveId}/${userId}`);
+  },
   deleteHive: (id: string) => {
     return axios.delete(`${API_BASE_URL}/api/hives/${id}`);
   },

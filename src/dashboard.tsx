@@ -15,8 +15,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { API_BASE_URL, apiClient } from "./services/api";
-import axios from "axios";
+import { apiClient } from "./services/api";
 import { useAuth } from "./context/AuthContext";
 
 export default function Dashboard() {
@@ -24,7 +23,7 @@ export default function Dashboard() {
   const { user } = useAuth();
 
   const getHives = async () => {
-    if (user)  {
+    if (user && user.id)  {
       const res = await apiClient.getUserAccessibleHives(user.id);
       if (res && res.data && res.data.length) {
         setHive(res.data[0]);
@@ -34,8 +33,8 @@ export default function Dashboard() {
 
   const getHiveData = async () => {
     if (!hive) return;
-    const data = await axios.get(`${API_BASE_URL}/api/hives/data/`);
-    if (data && data.data) console.log(data.data);
+    //const data = await axios.get(`${API_BASE_URL}/api/hives/data/`);
+    //if (data && data.data) console.log(data.data);
   };
 
   useEffect(() => {
@@ -43,8 +42,9 @@ export default function Dashboard() {
   }, [hive]);
 
   useEffect(() => {
-    getHives();
-  }, []);
+    if (user)
+      getHives();
+  }, [user]);
 
   if (!hive)
     return (
