@@ -18,35 +18,44 @@ import {
 import { apiClient } from "./services/api";
 import { useAuth } from "./context/AuthContext";
 
+type Hive = {
+  id: string;
+  name: string;
+};
+
 export default function Dashboard() {
-  const [hive, setHive] = useState<any>(undefined);
+  const [hives, setHives] = useState<Hive[]>([]); // An array of Hive objects
+  const [selectedHive, setSelectedHive] = useState<Hive | null>(null); // Nullable Hive object
+  
   const { user } = useAuth();
 
   const getHives = async () => {
-    if (user && user.id)  {
+    if (user && user.id) {
       const res = await apiClient.getUserAccessibleHives(user.id);
       if (res && res.data && res.data.length) {
-        setHive(res.data[0]);
+        setHives(res.data);
+        setSelectedHive(res.data[0] || null); // Ensure there is a default hive or null
       }
-  }
+    }
   };
 
   const getHiveData = async () => {
-    if (!hive) return;
-    //const data = await axios.get(`${API_BASE_URL}/api/hives/data/`);
-    //if (data && data.data) console.log(data.data);
+    if (selectedHive) {
+      // Fetch hive-specific data using the selected hive's ID
+      // const data = await axios.get(`${API_BASE_URL}/api/hives/${selectedHive.id}/data`);
+      // console.log(data);
+    }
   };
 
   useEffect(() => {
-    if (hive) getHiveData();
-  }, [hive]);
+    getHiveData();
+  }, [selectedHive]);
 
   useEffect(() => {
-    if (user)
-      getHives();
+    getHives();
   }, [user]);
 
-  if (!hive)
+  if (!hives.length)
     return (
       <div className="h-screen flex items-center justify-center">
         <p>No hive linked to your account</p>
@@ -58,9 +67,18 @@ export default function Dashboard() {
       <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
         <div className="flex gap-2 items-center">
           <StatsReport className="text-white dark:text-black" />
-          <p className="text-white dark:text-black text-lg font-normal">
-            {hive.name}
-          </p>
+          <select
+            value={selectedHive ? selectedHive.id : ''} // Use an empty string when selectedHive is null
+            onChange={(e) => {
+            const newHive = hives.find(hive => hive.id === e.target.value);
+            setSelectedHive(newHive || null); // Safely handle the case where no hive is found
+                      }}
+            className="w-40 p-2 rounded bg-main dark:bg-white text-white dark:text-black"
+          >
+          {hives.map(hive => (
+            <option key={hive.id} value={hive.id}>{hive.name}</option>
+          ))}
+          </select>
           <EditPencil width={20} height={20} className="text-white dark:text-black ml-3" />
         </div>
         <div className="pr-5">
