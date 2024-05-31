@@ -17,7 +17,6 @@ import {
 } from "recharts";
 import { apiClient } from "./services/api";
 import { useAuth } from "./context/AuthContext";
-import Spinner from "./components/spinner";
 import moment from "moment";
 
 type Hive = {
@@ -85,7 +84,6 @@ export default function Dashboard() {
         <p>No hive linked to your account</p>
       </div>
     );
-  if (!HivesData.length) return <Spinner />
   return (
     <div className="p-5">
     
@@ -117,6 +115,11 @@ export default function Dashboard() {
           </select>
         </div>
       </div>
+      {HivesData.length === 0 ? 
+        <div className="mt-3 text-white">
+          <p>No data for this hive</p>
+        </div>
+        :
       <div className="mt-5 w-full grid xl:grid-cols-2 grid-cols-1 gap-5">
         <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
           <p className="text-title dark:text-[#292929]">
@@ -241,7 +244,7 @@ export default function Dashboard() {
             />
           </LineChart>
         </div>
-      </div>
+      </div>}
     </div>
   );
 }
