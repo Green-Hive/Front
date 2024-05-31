@@ -17,6 +17,7 @@ import {
 } from "recharts";
 import { apiClient } from "./services/api";
 import { useAuth } from "./context/AuthContext";
+import Spinner from "./components/spinner";
 
 type Hive = {
   id: string;
@@ -26,7 +27,7 @@ type Hive = {
 export default function Dashboard() {
   const [hives, setHives] = useState<Hive[]>([]); // An array of Hive objects
   const [selectedHive, setSelectedHive] = useState<Hive | null>(null); // Nullable Hive object
-  const [HivesData, setHivesData] = useState([]); // An array of Hive data [temperature, humidite, poids, pression
+  const [HivesData, setHivesData] = useState<{tempBottomLeft: number| null, tempTopRight: number| null, tempOutside: number| null, pressure: number| null, humidityBottomLeft: number| null, humidityTopRight: number| null, humidityOutside: number| null, weight: number| null, magnetic_x: number| null, magnetic_y: number| null, magnetic_z: number| null}[]>([]); // An array of Hive data [temperature, humidite, poids, pression
   
   const { user } = useAuth();
 
@@ -49,17 +50,9 @@ export default function Dashboard() {
     }
   }
 
-  const getHiveData = async () => {
-    if (selectedHive) {
-      // Fetch hive-specific data using the selected hive's ID
-      // const data = await axios.get(`${API_BASE_URL}/api/hives/${selectedHive.id}/data`);
-      // console.log(data);
-    }
-  };
 
   useEffect(() => {
     getAllHiveData();
-    getHiveData(); // Assuming you want to fetch both on hive selection change
   }, [selectedHive]);
 
   useEffect(() => {
@@ -73,6 +66,8 @@ export default function Dashboard() {
       </div>
     );
     
+
+  if (!HivesData.length) return <Spinner />
   return (
     <div className="p-5">
     
@@ -113,22 +108,21 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={[]}
-            // data={data.temperature}
+            data={HivesData.map((data) => ({outside: data.tempOutside, inside: data.tempTopRight && data.tempBottomLeft ? (data.tempTopRight  + data.tempBottomLeft) / 2 : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="outside" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="inside" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="name" fontSize={12} />
-            <YAxis domain={[10, 28]} fontSize={12} />
+            <YAxis domain={[0, 28]} fontSize={12} />
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <Tooltip />
             <Legend />
@@ -137,7 +131,7 @@ export default function Dashboard() {
               dataKey="inside"
               stroke="#B1F81A"
               fillOpacity={0.6}
-              fill="url(#colorUv)"
+              fill="url(#outside)"
             />
             <Area
               type="monotone"
@@ -154,16 +148,15 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={[]}
-            // data={data.humidite}
+            data={HivesData.map((data) => ({outside: data.humidityOutside, inside: data.humidityTopRight && data.humidityBottomLeft ? (data.humidityBottomLeft  + data.humidityTopRight) / 2 : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="outside" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="inside" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
@@ -178,7 +171,7 @@ export default function Dashboard() {
               dataKey="outside"
               stroke="#B1F81A"
               fillOpacity={0.6}
-              fill="url(#colorUv)"
+              fill="url(#outside)"
             />
             <Area
               type="monotone"
