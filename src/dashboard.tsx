@@ -18,6 +18,7 @@ import {
 import { apiClient } from "./services/api";
 import { useAuth } from "./context/AuthContext";
 import Spinner from "./components/spinner";
+import moment from "moment";
 
 type Hive = {
   id: string;
@@ -27,8 +28,8 @@ type Hive = {
 export default function Dashboard() {
   const [hives, setHives] = useState<Hive[]>([]); // An array of Hive objects
   const [selectedHive, setSelectedHive] = useState<Hive | null>(null); // Nullable Hive object
-  const [HivesData, setHivesData] = useState<{tempBottomLeft: number| null, tempTopRight: number| null, tempOutside: number| null, pressure: number| null, humidityBottomLeft: number| null, humidityTopRight: number| null, humidityOutside: number| null, weight: number| null, magnetic_x: number| null, magnetic_y: number| null, magnetic_z: number| null}[]>([]); // An array of Hive data [temperature, humidite, poids, pression
-  
+  const [HivesData, setHivesData] = useState<{createdAt: Date, tempBottomLeft: number| null, tempTopRight: number| null, tempOutside: number| null, pressure: number| null, humidityBottomLeft: number| null, humidityTopRight: number| null, humidityOutside: number| null, weight: number| null, magnetic_x: number| null, magnetic_y: number| null, magnetic_z: number| null}[]>([]); // An array of Hive data [temperature, humidite, poids, pression
+  const [time, setTime] = useState<string>('Real time');
   const { user } = useAuth();
 
   const getHives = async () => {
@@ -91,12 +92,11 @@ export default function Dashboard() {
         <div className="pr-5">
           <select
             className="w-40 p-2 rounded bg-main dark:bg-white text-white dark:text-black"
-            // onChange={(e) => setTime(e.target.value)}
+            onChange={(e) => setTime(e.target.value)}
           >
-            <option>Weekly</option>
-            <option>Daily</option>
-            <option>Monthly</option>
-            <option>Yearly</option>
+            <option>Real time</option>
+            <option>Today</option>
+            <option>This week</option>
           </select>
         </div>
       </div>
@@ -108,7 +108,7 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={HivesData.map((data) => ({outside: data.tempOutside, inside: data.tempTopRight && data.tempBottomLeft ? (data.tempTopRight  + data.tempBottomLeft) / 2 : 0}))}
+            data={HivesData.map((data) => ({date: moment(data.createdAt).format(time !== "This week" ? "HH:mm" : 'DD/MM/YYYY'), outside: data.tempOutside, inside: data.tempTopRight && data.tempBottomLeft ? (data.tempTopRight  + data.tempBottomLeft) / 2 : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -121,7 +121,7 @@ export default function Dashboard() {
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <XAxis dataKey="name" fontSize={12} />
+            <XAxis dataKey="date" fontSize={12} />
             <YAxis domain={[0, 28]} fontSize={12} />
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <Tooltip />
@@ -148,7 +148,7 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={HivesData.map((data) => ({outside: data.humidityOutside, inside: data.humidityTopRight && data.humidityBottomLeft ? (data.humidityBottomLeft  + data.humidityTopRight) / 2 : 0}))}
+            data={HivesData.map((data) => ({date: moment(data.createdAt).format(time !== "This week" ? "HH:mm" : 'DD/MM/YYYY'), outside: data.humidityOutside, inside: data.humidityTopRight && data.humidityBottomLeft ? (data.humidityBottomLeft  + data.humidityTopRight) / 2 : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -161,7 +161,7 @@ export default function Dashboard() {
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <XAxis dataKey="name" fontSize={12} />
+            <XAxis dataKey="date" fontSize={12} />
             <YAxis fontSize={12} />
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <Tooltip />
@@ -185,21 +185,19 @@ export default function Dashboard() {
 
         <div className="flex flex-col items-center justify-between w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
           <p className="text-title dark:text-[#292929]">
-            Poids de la ruche (kg)
+            Poids de la ruche (gr)
           </p>
           <BarChart
             width={650}
             height={240}
-            data={[]}
-            // data={data.poids}
+            data={HivesData.map((data) => ({weight: data.weight, date: moment(data.createdAt).format(time !== "This week" ? "HH:mm" : 'DD/MM/YYYY')}))}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
-            <XAxis dataKey="name" fontSize={12} />
-            <YAxis domain={[30, 36]} fontSize={12} />
+            <XAxis dataKey="date" fontSize={12} />
+            <YAxis domain={[200, 800]} fontSize={12} />
             <Tooltip />
             <Legend />
-            <Bar dataKey="morning" fill="#B1F81A" />
-            <Bar dataKey="afternoon" fill="#82ca9d" />
+            <Bar dataKey="weight" fill="#B1F81A" />
           </BarChart>
         </div>
 
@@ -210,18 +208,17 @@ export default function Dashboard() {
           <LineChart
             width={650}
             height={240}
-            data={[]}
-            // data={data.pression}
+            data={HivesData.map((data) => ({pressure: data.pressure, date: moment(data.createdAt).format(time !== "This week" ? "HH:mm" : 'DD/MM/YYYY')}))}
             margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
-            <XAxis dataKey="name" fontSize={12} />
-            <YAxis fontSize={12} domain={[650, 800]} />
+            <XAxis dataKey="date"  fontSize={12} />
+            <YAxis fontSize={12} domain={[800, 1100]} />
             <Tooltip />
             <Legend />
             <Line
               type="monotone"
-              dataKey="pression"
+              dataKey="pressure"
               stroke="#B1F81A"
               strokeWidth={3}
             />
