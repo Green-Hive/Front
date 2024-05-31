@@ -46,11 +46,20 @@ export default function Dashboard() {
     if (selectedHive) {
       const res = await apiClient.getAllHiveData(selectedHive.id);
       if (res && res.data && res.data.length) {
-        setHivesData(res.data);
+        let data = res.data
+        if (time === "Today") {
+          data = data.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'day'));
+          setHivesData(data);
+        }
+        else if (time === "This week") {
+          data = data.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'week'));
+          setHivesData(data);
+        }
+        else
+          setHivesData(data.splice(0, 10));
       }
     }
   }
-
 
   useEffect(() => {
     getAllHiveData();
@@ -60,14 +69,22 @@ export default function Dashboard() {
     getHives();
   }, [user]);
 
+
+  useEffect(() => {
+    if (time === "Real time") {
+      const interval = setInterval(() => {
+        getAllHiveData();
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [time]);
+
   if (!hives.length)
     return (
       <div className="h-screen flex items-center justify-center">
         <p>No hive linked to your account</p>
       </div>
     );
-    
-
   if (!HivesData.length) return <Spinner />
   return (
     <div className="p-5">
