@@ -26,6 +26,7 @@ type Hive = {
 export default function Dashboard() {
   const [hives, setHives] = useState<Hive[]>([]); // An array of Hive objects
   const [selectedHive, setSelectedHive] = useState<Hive | null>(null); // Nullable Hive object
+  const [HivesData, setHivesData] = useState([]); // An array of Hive data [temperature, humidite, poids, pression
   
   const { user } = useAuth();
 
@@ -39,6 +40,15 @@ export default function Dashboard() {
     }
   };
 
+  const getAllHiveData = async () => {
+    if (selectedHive) {
+      const res = await apiClient.getAllHiveData(selectedHive.id);
+      if (res && res.data && res.data.length) {
+        setHivesData(res.data);
+      }
+    }
+  }
+
   const getHiveData = async () => {
     if (selectedHive) {
       // Fetch hive-specific data using the selected hive's ID
@@ -48,7 +58,8 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    getHiveData();
+    getAllHiveData();
+    getHiveData(); // Assuming you want to fetch both on hive selection change
   }, [selectedHive]);
 
   useEffect(() => {
@@ -61,6 +72,7 @@ export default function Dashboard() {
         <p>No hive linked to your account</p>
       </div>
     );
+    
   return (
     <div className="p-5">
     
