@@ -1,8 +1,9 @@
-const ws = new WebSocket('ws://localhost:4001');
 
-console.log(import.meta.env.VITE_WS_URL);
-
+console.log(import.meta.env.WS_URL);
+// const WS_URL = 'ws://localhost:4001'
+const WS_URL = 'ws://greenhiveapi.up.railway.app:4001'
 // LINKER AVEC CE FILS DE PUTE D'ENVIRONNEMENT COMPRENDS PAS PK CA UNDEFINED
+const ws = new WebSocket(WS_URL);
 
 ws.onopen = () => {
   console.log('Connected to the WebSocket server');
