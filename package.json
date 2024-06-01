@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@types/recharts": "^1.8.27",
+    "@types/ws": "^8.5.10",
     "axios": "^1.6.2",
     "framer-motion": "^10.16.4",
     "iconoir-react": "^6.11.0",
@@ -21,7 +22,8 @@
     "react-hook-form": "^7.46.1",
     "react-icons": "^4.12.0",
     "react-router-dom": "^6.16.0",
-    "recharts": "^2.9.3"
+    "recharts": "^2.9.3",
+    "ws": "^8.17.0"
   },
   "devDependencies": {
     "@types/node": "^20.9.4",

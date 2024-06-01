@@ -1,5 +1,12 @@
 import { InfoEmpty,  WarningTriangle } from "iconoir-react";
 import { useAuth } from "../context/AuthContext";
+import ws from "../services/webSocket.ts";
+
+// A LINKER AVEC LE FRONT JUSTE UN CONSOLE.LOG POUR LE MOMENT
+ws.onmessage = (event) => {
+  const alert = JSON.parse(event.data);
+  console.log('Received alert:', alert);
+};
 
 function NotificationError(props: { title: string; description: string }) {
   return (
