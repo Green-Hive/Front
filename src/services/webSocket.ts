@@ -1,8 +1,7 @@
+const WS_URL= import.meta.env.VITE_APP_WS;
 
-console.log(import.meta.env.WS_URL);
-const WS_URL = 'ws://localhost:443'
-// const WS_URL = 'wss://greenhiveapi.up.railway.app:443'
-// LINKER AVEC CE FILS DE PUTE D'ENVIRONNEMENT COMPRENDS PAS PK CA UNDEFINED
+console.log("WS_URL:", WS_URL);
+
 const ws = new WebSocket(WS_URL);
 
 ws.onopen = () => {
