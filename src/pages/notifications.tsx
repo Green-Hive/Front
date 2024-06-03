@@ -1,20 +1,9 @@
 import { InfoEmpty,  WarningTriangle } from "iconoir-react";
 import { useAuth } from "../context/AuthContext";
-// import ws from "../services/webSocket.ts";
+import channel from "../services/webSocket.ts";
 
 // A LINKER AVEC LE FRONT JUSTE UN CONSOLE.LOG POUR LE MOMENT
-// ws.onmessage = (event) => {
-//   const alert = JSON.parse(event.data);
-//   console.log('Received alert:', alert);
-// };
 
-import Pusher from 'pusher-js';
-
-const pusher = new Pusher('89316c4952f82b5e2874', {
-  cluster: 'eu'
-});
-
-const channel = pusher.subscribe('my-channel');
 channel.bind('my-event', function(data:never) {
   console.log('Received alert:', data);
 });
