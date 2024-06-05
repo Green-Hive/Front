@@ -64,4 +64,13 @@ export const apiClient = {
       name,
     });
   },
+  getAllAlertsFromHiveId: (hiveId:string) => {
+    return axios.get(`${API_BASE_URL}/api/hives/alert/all/${hiveId}`);
+  },
+  deleteOneAlert: (id: string) => {
+    return axios.delete(`${API_BASE_URL}/api/hives/alert/${id}`);
+  },
+  deleteAllAlerts: (hiveId: string) => {
+    return axios.delete(`${API_BASE_URL}/api/hives/alert/all/${hiveId}`);
+  },
 };
