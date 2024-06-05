@@ -11,7 +11,7 @@ enum AlertSeverity {
   CRITICAL = "CRITICAL"
 }
 
-function NotificationError(props: { title: string; description: string; date: any }) {
+function NotificationError(props: { title: string; description: string; date: any; deleteFunction: () => void }) {
   const formattedDate = format(new Date(props.date), 'dd/MM/yyyy HH:mm:ss');
   return (
     <div className="bg-red-300/80 text-red-800 flex justify-between py-3 px-5 rounded-lg items-star relative">
@@ -26,14 +26,15 @@ function NotificationError(props: { title: string; description: string; date: an
         <p className="text-sm underline">{formattedDate}</p>
       </div>
       <div
-        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-red-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-red-300 hover:border-red-400 rounded-r-lg">
+        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-red-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-red-300 hover:border-red-400 rounded-r-lg"
+        onClick={props.deleteFunction}>
         <div className="text-black">X</div>
       </div>
     </div>
   );
 }
 
-function NotificationWarning(props: { title: string; description: string; date: any }) {
+function NotificationWarning(props: { title: string; description: string; date: any; deleteFunction: () => void }) {
   const formattedDate = format(new Date(props.date), 'dd/MM/yyyy HH:mm:ss');
   return (
     <div className="bg-amber-200 text-yellow-800 flex justify-between py-3 px-5 rounded-lg items-start relative">
@@ -48,14 +49,15 @@ function NotificationWarning(props: { title: string; description: string; date: 
         <p className="text-sm underline">{formattedDate}</p>
       </div>
       <div
-        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-amber-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-amber-300 hover:border-amber-400 rounded-r-lg">
+        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-amber-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-amber-300 hover:border-amber-400 rounded-r-lg"
+        onClick={props.deleteFunction}>
         <div className="text-black">X</div>
       </div>
     </div>
   );
 }
 
-function NotificationInfo(props: { title: string; description: string; date: any }) {
+function NotificationInfo(props: { title: string; description: string; date: any; deleteFunction: () => void }) {
   const formattedDate = format(new Date(props.date), 'dd/MM/yyyy HH:mm:ss');
   return (
     <div className="bg-blue-200 text-blue-700 flex justify-between py-3 px-5 rounded-lg items-start relative">
@@ -70,7 +72,8 @@ function NotificationInfo(props: { title: string; description: string; date: any
         <p className="text-sm underline my-auto flex justify-end">{formattedDate}</p>
       </div>
       <div
-        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-blue-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-blue-300 hover:border-blue-500 rounded-r-lg">
+        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-blue-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-blue-300 hover:border-blue-500 rounded-r-lg"
+        onClick={props.deleteFunction}>
         <div className="text-black">X</div>
       </div>
 
@@ -96,22 +99,44 @@ export default function NotificationsPage() {
   const [loading, setLoading] = useState(true);
   const [alerts, setAlerts] = useState([]) as any;
 
+  const deleteAllAlerts = async () => {
+    try {
+      for (const hive of user.hive) {
+        await apiClient.deleteAllAlerts(hive.id);
+      }
+      setAlerts([]);
+    } catch (error) {
+      console.error('An error occurred while deleting alerts:', error);
+    }
+  };
+
+  const deleteAlert = async (id: string) => {
+    try {
+      await apiClient.deleteOneAlert(id);
+      const newAlerts = alerts.filter((alert: any) => alert.id !== id);
+      setAlerts(newAlerts);
+    } catch (error) {
+      console.error('An error occurred while deleting alert:', error);
+    }
+
+  }
+
   useEffect(() => {
     const fetchAlerts = async () => {
       if (user && user.hive && user.hive.length > 0) {
         try {
           const allAlerts = await getAllAlerts(user);
           setAlerts(allAlerts);
-          setLoading(false); // Indiquer que le chargement est terminé
+          setLoading(false);
         } catch (error) {
           console.error('An error occurred while fetching alerts:', error);
-          setLoading(false); // Indiquer que le chargement est terminé, même en cas d'erreur
+          setLoading(false);
         }
       }
     };
     fetchAlerts();
 
-    // Subscribe to WebSocket event
+    // WEB SOCKET RECEIVED ALERT UPDATE ALERTS
     channel.bind('my-event', async (data: never) => {
       console.log('Received alert:', data);
       try {
@@ -122,10 +147,6 @@ export default function NotificationsPage() {
       }
     });
   }, [user]);
-
-  useEffect(() => {
-    console.log(alerts)
-  }, [alerts]);
 
   if (!user.notified)
     return (
@@ -139,8 +160,14 @@ export default function NotificationsPage() {
 
   return (
     <div className="mt-6 px-4 sm:px-6 lg:px-8 flex flex-col gap">
-      <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-6">
-        <p className="text-lg font-semibold text-white">Alerts</p>
+      <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-6 ">
+        <div className={"flex justify-between my-auto mb-10"}>
+          <p className="text-lg font-semibold text-white flex my-auto">Alerts</p>
+          <button onClick={() => deleteAllAlerts()}
+                  className="bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded-full transition">
+            Delete all Notifications
+          </button>
+        </div>
         {loading ? (
           <div className="flex justify-center items-center h-24">
             {/* Afficher un loader pendant le chargement */}
@@ -156,6 +183,7 @@ export default function NotificationsPage() {
                       title={alert.type}
                       description={alert.message}
                       date={alert.createdAt}
+                      deleteFunction={() => deleteAlert(alert.id)}
                     />
                   )}
                   {alert.severity === AlertSeverity.WARNING && (
@@ -163,6 +191,7 @@ export default function NotificationsPage() {
                       title={alert.type}
                       description={alert.message}
                       date={alert.createdAt}
+                      deleteFunction={() => deleteAlert(alert.id)}
                     />
                   )}
                   {alert.severity === AlertSeverity.INFO && (
@@ -170,6 +199,7 @@ export default function NotificationsPage() {
                       title={alert.type}
                       description={alert.message}
                       date={alert.createdAt}
+                      deleteFunction={() => deleteAlert(alert.id)}
                     />
                   )}
                 </div>
