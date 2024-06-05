@@ -28,6 +28,7 @@ function NotificationError(props: { title: string; description: string; date: an
 }
 
 function NotificationWarning(props: { title: string; description: string; date: any }) {
+  const formattedDate = format(new Date(props.date), 'dd/MM/yyyy HH:mm:ss');
   return (
     <div className="bg-[#E5D26F] text-yellow-800 flex justify-between py-3 px-5 rounded-lg items-start">
       <div className="flex gap-6 items-center">
@@ -37,12 +38,13 @@ function NotificationWarning(props: { title: string; description: string; date: 
           <p className="text-sm">{props.description}</p>
         </div>
       </div>
-      <p className="text-sm underline">Today, 13h30</p>
+      <p className="text-sm underline">{formattedDate}</p>
     </div>
   );
 }
 
 function NotificationInfo(props: { title: string; description: string; date: any }) {
+  const formattedDate = format(new Date(props.date), 'dd/MM/yyyy HH:mm:ss');
   return (
     <div className="bg-blue-200 text-blue-700 flex justify-between py-3 px-5 rounded-lg items-start">
       <div className="flex gap-6 items-center">
@@ -52,7 +54,7 @@ function NotificationInfo(props: { title: string; description: string; date: any
           <p className="text-sm">{props.description}</p>
         </div>
       </div>
-      <p className="text-sm underline">{props.date}</p>
+      <p className="text-sm underline">{formattedDate}</p>
     </div>
   );
 }
