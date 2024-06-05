@@ -14,15 +14,21 @@ enum AlertSeverity {
 function NotificationError(props: { title: string; description: string; date: any }) {
   const formattedDate = format(new Date(props.date), 'dd/MM/yyyy HH:mm:ss');
   return (
-    <div className="bg-red-300/80 text-red-800 flex justify-between py-3 px-5 rounded-lg items-start">
-      <div className="flex gap-6 items-center">
-        <WarningTriangle width={35} height={35} strokeWidth={2}/>
-        <div className="flex flex-col">
-          <p className="font-semibold">{props.title}</p>
-          <p className="text-sm">{props.description}</p>
+    <div className="bg-red-300/80 text-red-800 flex justify-between py-3 px-5 rounded-lg items-star relative">
+      <div className={"flex justify-between w-11/12"}>
+        <div className="flex gap-6 items-center">
+          <WarningTriangle width={35} height={35} strokeWidth={2}/>
+          <div className="flex flex-col">
+            <p className="font-semibold">{props.title}</p>
+            <p className="text-sm">{props.description}</p>
+          </div>
         </div>
+        <p className="text-sm underline">{formattedDate}</p>
       </div>
-      <p className="text-sm underline">{formattedDate}</p>
+      <div
+        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-red-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-red-300 hover:border-red-400 rounded-r-lg">
+        <div className="text-black">X</div>
+      </div>
     </div>
   );
 }
@@ -30,15 +36,21 @@ function NotificationError(props: { title: string; description: string; date: an
 function NotificationWarning(props: { title: string; description: string; date: any }) {
   const formattedDate = format(new Date(props.date), 'dd/MM/yyyy HH:mm:ss');
   return (
-    <div className="bg-[#E5D26F] text-yellow-800 flex justify-between py-3 px-5 rounded-lg items-start">
-      <div className="flex gap-6 items-center">
-        <InfoEmpty width={32} height={32} strokeWidth={2}/>
-        <div className="flex flex-col">
-          <p className="font-semibold">{props.title}</p>
-          <p className="text-sm">{props.description}</p>
+    <div className="bg-amber-200 text-yellow-800 flex justify-between py-3 px-5 rounded-lg items-start relative">
+      <div className={"flex justify-between w-11/12"}>
+        <div className="flex gap-6 items-center">
+          <InfoEmpty width={32} height={32} strokeWidth={2}/>
+          <div className="flex flex-col">
+            <p className="font-semibold">{props.title}</p>
+            <p className="text-sm">{props.description}</p>
+          </div>
         </div>
+        <p className="text-sm underline">{formattedDate}</p>
       </div>
-      <p className="text-sm underline">{formattedDate}</p>
+      <div
+        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-amber-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-amber-300 hover:border-amber-400 rounded-r-lg">
+        <div className="text-black">X</div>
+      </div>
     </div>
   );
 }
@@ -46,15 +58,22 @@ function NotificationWarning(props: { title: string; description: string; date: 
 function NotificationInfo(props: { title: string; description: string; date: any }) {
   const formattedDate = format(new Date(props.date), 'dd/MM/yyyy HH:mm:ss');
   return (
-    <div className="bg-blue-200 text-blue-700 flex justify-between py-3 px-5 rounded-lg items-start">
-      <div className="flex gap-6 items-center">
-        <InfoEmpty width={32} height={32} strokeWidth={2}/>
-        <div className="flex flex-col">
-          <p className="font-semibold">{props.title}</p>
-          <p className="text-sm">{props.description}</p>
+    <div className="bg-blue-200 text-blue-700 flex justify-between py-3 px-5 rounded-lg items-start relative">
+      <div className={"flex justify-between w-11/12"}>
+        <div className="flex gap-6 items-center">
+          <InfoEmpty width={32} height={32} strokeWidth={2}/>
+          <div className="flex flex-col">
+            <p className="font-semibold">{props.title}</p>
+            <p className="text-sm">{props.description}</p>
+          </div>
         </div>
+        <p className="text-sm underline my-auto flex justify-end">{formattedDate}</p>
       </div>
-      <p className="text-sm underline">{formattedDate}</p>
+      <div
+        className="absolute inset-y-0 right-0 flex items-center p-3 cursor-pointer border-l-2 border-blue-300 shadow-md transition-colors duration-300 ease-in-out hover:bg-blue-300 hover:border-blue-500 rounded-r-lg">
+        <div className="text-black">X</div>
+      </div>
+
     </div>
   );
 }
