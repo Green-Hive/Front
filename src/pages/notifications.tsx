@@ -183,7 +183,7 @@ export default function NotificationsPage() {
           </div>
         ) : (
           <div className="flex flex-col gap-5 mt-3">
-            {alerts.length > 0 ? (
+            {alerts?.length > 0 ? (
               alerts.map((alert: any, index: number) => (
                 <div key={index}>
                   {alert.severity === AlertSeverity.CRITICAL && (
@@ -214,7 +214,7 @@ export default function NotificationsPage() {
               ))
             ) : (
               <div className="w-full flex items-center justify-center">
-              <p className="text-white/80">No alerts to display.</p>
+                <p className="text-white/80">No alerts to display.</p>
               </div>
             )}
           </div>
