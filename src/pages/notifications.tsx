@@ -96,7 +96,7 @@ const getAllAlerts = async (user: any) => {
 
 export default function NotificationsPage() {
   const {user} = useAuth();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [alerts, setAlerts] = useState([]) as any;
   const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -128,6 +128,7 @@ export default function NotificationsPage() {
   useEffect(() => {
     const fetchAlerts = async () => {
       if (user && user.hive && user.hive.length > 0) {
+        setLoading(true);
         try {
           const allAlerts = await getAllAlerts(user);
           setAlerts(allAlerts);
