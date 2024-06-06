@@ -98,15 +98,20 @@ export default function NotificationsPage() {
   const {user} = useAuth();
   const [loading, setLoading] = useState(true);
   const [alerts, setAlerts] = useState([]) as any;
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const deleteAllAlerts = async () => {
+    setDeleteLoading(true);
     try {
       for (const hive of user.hive) {
         await apiClient.deleteAllAlerts(hive.id);
+        const newAlerts = await getAllAlerts(user);
+        setAlerts(newAlerts);
       }
-      setAlerts([]);
     } catch (error) {
       console.error('An error occurred while deleting alerts:', error);
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -118,7 +123,6 @@ export default function NotificationsPage() {
     } catch (error) {
       console.error('An error occurred while deleting alert:', error);
     }
-
   }
 
   useEffect(() => {
@@ -163,15 +167,19 @@ export default function NotificationsPage() {
       <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-6 ">
         <div className={"flex justify-between my-auto mb-10"}>
           <p className="text-lg font-semibold text-white flex my-auto">Alerts</p>
-          <button onClick={() => deleteAllAlerts()}
-                  className="bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded-full transition">
-            Delete all Notifications
+          <button
+            onClick={() => deleteAllAlerts()}
+            className={`py-2 px-4 rounded-full transition ${
+              deleteLoading ? 'bg-gray-400 cursor-wait' : 'bg-blue-400 hover:bg-blue-500'
+            } text-white`}
+            disabled={deleteLoading}
+          >
+            {deleteLoading ? 'Deleting...' : 'Delete all Notifications'}
           </button>
         </div>
         {loading ? (
-          <div className="flex justify-center items-center h-24">
-            {/* Afficher un loader pendant le chargement */}
-            CHARGEMENT
+          <div className="flex justify-center items-center h-24 text-xl text-white">
+            LOADING...
           </div>
         ) : (
           <div className="flex flex-col gap-5 mt-5">
