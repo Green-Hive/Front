@@ -1,6 +1,6 @@
 // DASHBOARD PAGE //
 
-import { EditPencil, StatsReport } from "iconoir-react";
+import { StatsReport } from "iconoir-react";
 import { useEffect, useState } from "react";
 import {
   Area,
@@ -81,14 +81,14 @@ export default function Dashboard() {
   if (!hives.length)
     return (
       <div className="h-screen flex items-center justify-center">
-        <p>No hive linked to your account</p>
+        <p>No hive linked to your account.</p>
       </div>
     );
   return (
     <div className="p-5">
     
       <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-4 items-center">
           <StatsReport className="text-white dark:text-black" />
           <select
             value={selectedHive ? selectedHive.id : ''} // Use an empty string when selectedHive is null
@@ -102,7 +102,6 @@ export default function Dashboard() {
             <option key={hive.id} value={hive.id}>{hive.name}</option>
           ))}
           </select>
-          <EditPencil width={20} height={20} className="text-white dark:text-black ml-3" />
         </div>
         <div className="pr-5">
           <select
@@ -116,8 +115,8 @@ export default function Dashboard() {
         </div>
       </div>
       {HivesData.length === 0 ? 
-        <div className="mt-3 text-white">
-          <p>No data for this hive</p>
+        <div className="mt-5 text-white/80 w-full flex items-center justify-center">
+          <p>No data for this hive.</p>
         </div>
         :
       <div className="mt-5 w-full grid xl:grid-cols-2 grid-cols-1 gap-5">

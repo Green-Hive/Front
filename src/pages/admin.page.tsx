@@ -113,7 +113,7 @@ export default function AdminPage() {
     }, []);
 
     return (
-        <div className="mt-6 px-4 sm:px-6 lg:px-8 flex flex-col gap container mx-auto">
+        <div className="mt-10 px-4 sm:px-6 lg:px-8 flex flex-col gap container mx-auto">
             <p className="text-white text-3xl mb-7">{"Admin panel"}</p>
             {open && 
             <CreateUserModal getUsers={() => getUsers()} setOpen={(e:boolean) => setOpen(e)}/>

@@ -10,6 +10,9 @@ import {
   PcCheck,
 } from "iconoir-react";
 import Logo from "../assets/GreenHive.png";
+import channel from "../services/webSocket";
+import { getAllAlerts } from "./notifications";
+import { useSnackbarsContext } from "../context/snackbars.context";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -116,6 +119,28 @@ function NavBar() {
 
 //Layout applied to all routes, to get the navbar etc displayed
 export default function Layout() {
+  const {user} = useAuth();
+  const { pushSnackbar } = useSnackbarsContext();
+
+  useEffect(() => {
+    // WEB SOCKET RECEIVED ALERT UPDATE ALERTS
+    channel.bind('my-event', async () => {
+      try {
+        const newAlerts = await getAllAlerts(user);
+        if (newAlerts && newAlerts.length > 0) { 
+          for (const alert of newAlerts) {
+            pushSnackbar({
+              type: alert.severity === "WARNING" ? "warning" : alert.severity === "CRITICAL" ? "error" : "info",
+              message: `New alert: ${alert.message}`
+            })
+          }
+        }
+      } catch (error) {
+        console.error('An error occurred while fetching alerts:', error);
+      }
+    });
+  }, [user]);
+
   return (
     <div className="w-full">
       <NavBar />

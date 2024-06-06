@@ -81,7 +81,7 @@ function NotificationInfo(props: { title: string; description: string; date: any
   );
 }
 
-const getAllAlerts = async (user: any) => {
+export const getAllAlerts = async (user: any) => {
   try {
     const allAlerts = [];
     for (const hive of user.hive) {
@@ -142,8 +142,7 @@ export default function NotificationsPage() {
     fetchAlerts();
 
     // WEB SOCKET RECEIVED ALERT UPDATE ALERTS
-    channel.bind('my-event', async (data: never) => {
-      console.log('Received alert:', data);
+    channel.bind('my-event', async () => {
       try {
         const newAlerts = await getAllAlerts(user);
         setAlerts(newAlerts);
@@ -170,8 +169,8 @@ export default function NotificationsPage() {
           <p className="text-lg font-semibold text-white flex my-auto">Alerts</p>
           <button
             onClick={() => deleteAllAlerts()}
-            className={`py-2 px-4 rounded-full transition ${
-              deleteLoading ? 'bg-gray-400 cursor-wait' : 'bg-blue-400 hover:bg-blue-500'
+            className={`py-2 px-4 rounded-lg transition ${
+              deleteLoading ? 'bg-gray-400 cursor-wait' : 'bg-greenOlive hover:bg-[#26300A]'
             } text-white`}
             disabled={deleteLoading}
           >
@@ -183,7 +182,7 @@ export default function NotificationsPage() {
             LOADING...
           </div>
         ) : (
-          <div className="flex flex-col gap-5 mt-5">
+          <div className="flex flex-col gap-5 mt-3">
             {alerts.length > 0 ? (
               alerts.map((alert: any, index: number) => (
                 <div key={index}>
@@ -214,7 +213,9 @@ export default function NotificationsPage() {
                 </div>
               ))
             ) : (
-              <p className="text-white/80">No alerts to display</p>
+              <div className="w-full flex items-center justify-center">
+              <p className="text-white/80">No alerts to display.</p>
+              </div>
             )}
           </div>
         )}
