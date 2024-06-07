@@ -4,6 +4,7 @@ import channel from "../services/webSocket.ts";
 import {apiClient} from "../services/api.ts";
 import {useEffect, useState} from "react";
 import {format} from 'date-fns';
+import Spinner from "../components/spinner.tsx";
 
 enum AlertSeverity {
   INFO = "INFO",
@@ -179,7 +180,7 @@ export default function NotificationsPage() {
         </div>
         {loading ? (
           <div className="flex justify-center items-center h-24 text-xl text-white">
-            LOADING...
+            <Spinner />
           </div>
         ) : (
           <div className="flex flex-col gap-5 mt-3">
