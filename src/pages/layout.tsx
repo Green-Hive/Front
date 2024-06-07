@@ -121,19 +121,25 @@ function NavBar() {
 export default function Layout() {
   const {user} = useAuth();
   const { pushSnackbar } = useSnackbarsContext();
+  const [alerts, setAlerts] = useState<any>([]);
 
   useEffect(() => {
     // WEB SOCKET RECEIVED ALERT UPDATE ALERTS
     channel.bind('my-event', async () => {
       try {
         const newAlerts = await getAllAlerts(user);
-        if (newAlerts && newAlerts.length > 0) { 
-          for (const alert of newAlerts) {
-            pushSnackbar({
-              type: alert.severity === "WARNING" ? "warning" : alert.severity === "CRITICAL" ? "error" : "info",
-              message: `New alert: ${alert.message}`
-            })
+        if (newAlerts) { 
+          const oldmsg = alerts.map((el:any) => el.message);
+          const findNew = alerts.filter((el:any) => !oldmsg.includes(el.message))
+          if (findNew.length) {
+            for (const alert of findNew) {
+              pushSnackbar({
+                type: alert.severity === "WARNING" ? "warning" : alert.severity === "CRITICAL" ? "error" : "info",
+                message: `New alert: ${alert.message}`
+              })
+            }
           }
+          setAlerts(newAlerts);
         }
       } catch (error) {
         console.error('An error occurred while fetching alerts:', error);

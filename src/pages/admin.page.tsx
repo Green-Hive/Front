@@ -116,8 +116,8 @@ export default function AdminPage() {
         <div className="mt-10 px-4 sm:px-6 lg:px-8 flex flex-col gap container mx-auto">
             <p className="text-white text-3xl mb-7">{"Admin panel"}</p>
             {open && 
-            <CreateUserModal getUsers={() => getUsers()} setOpen={(e:boolean) => setOpen(e)}/>
-                }
+                <CreateUserModal getUsers={() => getUsers()} setOpen={(e:boolean) => setOpen(e)}/>
+            }
             <div className="bg-Light-gray dark:bg-[#E5E5E5] rounded-lg shadow-lg p-4">
                 <div className="flex justify-between items-center border-b border-gray-300/20 pb-3">
                     <p className="text-lg font-semibold text-white">Users registered</p>
