@@ -56,7 +56,7 @@ export default function Dashboard() {
           setHivesData(data);
         }
         else
-          setHivesData(data.splice(0, 10));
+          setHivesData(data.splice(0, 10).reverse())
       }
     }
   }
@@ -71,7 +71,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (time === "Real time") {
-      console.log("la")
       const interval = setInterval(() => {
         getAllHiveData();
       }, 3000);
