@@ -40,11 +40,18 @@ function login() {
         type: "success",
         message: "You have been successfully logged.",
       });
-    } catch (error) {
-      pushSnackbar({
-        type: "error",
-        message: "Unable to login, please try again.",
-      });
+    } catch (error: unknown) {
+      console.log((error as any).response.data.error);
+      if((error as any).response.data.error === "Invalid credentials.")
+        pushSnackbar({
+          type: "error",
+          message: "Invalid email or password",
+        });
+      else if((error as any).response.data.error === "User not found.")
+        pushSnackbar({
+          type: "error",
+          message: "User not found.",
+        });
     }
   });
 
@@ -77,7 +84,7 @@ function login() {
                 })}
                 style={{ borderColor: errors.email ? "red" : "" }}
                 name="email"
-                type="text"
+                type="email"
                 className="w-full p-2 border border-grey-300 rounded mt-1 "
               />
               {errors.email && "Email is invalid"}

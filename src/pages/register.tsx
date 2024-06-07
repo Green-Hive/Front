@@ -50,11 +50,12 @@ function SignUp() {
         type: "success",
         message: "You have been successfully registered.",
       });
-    } catch (error) {
-      pushSnackbar({
-        type: "error",
-        message: "Unable to register, please try again.",
-      });
+    } catch (error: unknown) {
+      if((error as any).response.data.error === "User already exists.")
+        pushSnackbar({
+          type: "error",
+          message: "User already exists.",
+        });
       console.error(error);
     }
   });
@@ -83,7 +84,7 @@ function SignUp() {
               <input
                 {...register("email", { required: true })}
                 name="email"
-                type="text"
+                type="email"
                 className="w-full p-2 border border-grey-300 rounded mt-1"
               />
               {errors.email && (
