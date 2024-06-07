@@ -19,6 +19,7 @@ import { apiClient } from "./services/api";
 import { useAuth } from "./context/AuthContext";
 import moment from "moment";
 import Spinner from "./components/spinner";
+import Hive3D from './components/Hive3D';
 
 type Hive = {
   id: string;
@@ -87,7 +88,7 @@ export default function Dashboard() {
     );
   else return (
     <div className="p-5">
-    
+      
       <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
         <div className="flex gap-4 items-center">
           <StatsReport className="text-white dark:text-black" />
@@ -121,6 +122,7 @@ export default function Dashboard() {
         </div>
         :
       <div className="mt-5 w-full grid xl:grid-cols-2 grid-cols-1 gap-5">
+
         <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
           <p className="text-title dark:text-[#292929]">
             Température moyenne (°C)
@@ -243,6 +245,9 @@ export default function Dashboard() {
               strokeWidth={3}
             />
           </LineChart>
+        </div>
+        <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
+        <Hive3D magnetic_x={316} magnetic_y={-1515} magnetic_z={2058} />
         </div>
       </div>}
     </div>
