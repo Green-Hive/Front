@@ -18,6 +18,7 @@ import {
 import { apiClient } from "./services/api";
 import { useAuth } from "./context/AuthContext";
 import moment from "moment";
+import Spinner from "./components/spinner";
 
 type Hive = {
   id: string;
@@ -25,7 +26,7 @@ type Hive = {
 };
 
 export default function Dashboard() {
-  const [hives, setHives] = useState<Hive[]>([]); // An array of Hive objects
+  const [hives, setHives] = useState<Hive[] | null >(null); // An array of Hive objects
   const [selectedHive, setSelectedHive] = useState<Hive | null>(null); // Nullable Hive object
   const [HivesData, setHivesData] = useState<{createdAt: Date, tempBottomLeft: number| null, tempTopRight: number| null, tempOutside: number| null, pressure: number| null, humidityBottomLeft: number| null, humidityTopRight: number| null, humidityOutside: number| null, weight: number| null, magnetic_x: number| null, magnetic_y: number| null, magnetic_z: number| null}[]>([]); // An array of Hive data [temperature, humidite, poids, pression
   const [time, setTime] = useState<string>('Real time');
@@ -78,13 +79,14 @@ export default function Dashboard() {
     }
   }, [time]);
 
-  if (!hives.length)
+  if (!hives) return <div className="w-full flex items-center justify-center h-20"><Spinner /></div>;
+  else if (!hives.length)
     return (
       <div className="h-screen flex items-center justify-center">
         <p>No hive linked to your account.</p>
       </div>
     );
-  return (
+  else return (
     <div className="p-5">
     
       <div className="flex items-center gap-2 w-full justify-between py-2 px-5 bg-Light-gray dark:bg-[#E5E5E5] rounded">
