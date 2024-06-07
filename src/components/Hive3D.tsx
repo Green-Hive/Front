@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 interface Hive3DProps {
     magnetic_x: number;
@@ -36,12 +35,6 @@ const Hive3D: React.FC<Hive3DProps> = ({ magnetic_x, magnetic_y, magnetic_z }) =
         const quaternion = new THREE.Quaternion().setFromUnitVectors(upVector, targetVector);
         cube.quaternion.copy(quaternion);
 
-        // Orbit Controls
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;  // an animation loop is required when either damping or auto-rotation is enabled
-        controls.dampingFactor = 0.25;
-        controls.screenSpacePanning = false;
-
         // Handle window resizing
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -53,7 +46,6 @@ const Hive3D: React.FC<Hive3DProps> = ({ magnetic_x, magnetic_y, magnetic_z }) =
         // Animation loop
         const animate = () => {
             requestAnimationFrame(animate);
-            controls.update(); // only required if controls.enableDamping or controls.autoRotate are set to true
             renderer.render(scene, camera);
         };
         animate();
