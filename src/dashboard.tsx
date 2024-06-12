@@ -28,10 +28,11 @@ type Hive = {
 
 export default function Dashboard() {
   const [hives, setHives] = useState<Hive[] | null >(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [selectedHive, setSelectedHive] = useState<string | null>(localStorage.getItem("hive"));
   const [HivesData, setHivesData] = useState<{createdAt: Date, tempBottomLeft: number| null, tempTopRight: number| null, tempOutside: number| null, pressure: number| null, humidityBottomLeft: number| null, humidityTopRight: number| null, humidityOutside: number| null, weight: number| null, magnetic_x: number| null, magnetic_y: number| null, magnetic_z: number| null}[]>([]); // An array of Hive data [temperature, humidite, poids, pression
   const [globalData, setGlobalData] = useState<{createdAt: Date, tempBottomLeft: number| null, tempTopRight: number| null, tempOutside: number| null, pressure: number| null, humidityBottomLeft: number| null, humidityTopRight: number| null, humidityOutside: number| null, weight: number| null, magnetic_x: number| null, magnetic_y: number| null, magnetic_z: number| null}[]>([]); // An array of Hive data [temperature, humidite, poids, pression
-  const [time, setTime] = useState<string>('Real time');
+  const [time, setTime] = useState<string| null>(null);
   const { user } = useAuth();
 
   const getHives = async () => {
@@ -51,18 +52,18 @@ export default function Dashboard() {
   const getAllHiveData = async () => {
     if (selectedHive) {
       const res = await apiClient.getAllHiveData(selectedHive);
+      if (res) setLoading(false)
       if (res && res.data && res.data.length) {
-        console.log(res.data)
         let data = res.data.reverse()
           setGlobalData(data)
-          setHivesData(data.splice(0, 10))
       }
     }
   }
 
   useEffect(() => {
     if (time === "Real time") {
-      setHivesData(globalData.splice(0, 10).reverse())
+      console.log(globalData.reverse().splice(0, 10).reverse())
+      setHivesData(globalData.reverse().splice(0, 10).reverse())
     }
     if (time === "Today") {
       const data = globalData.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'day'))
@@ -76,10 +77,14 @@ export default function Dashboard() {
       const data = globalData.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'year'))
       setHivesData(data)    
     }
-  }, [time]);
+  }, [time, selectedHive]);
 
   useEffect(() => {
     getAllHiveData();
+    setGlobalData([])
+    setHivesData([])
+    setLoading(true)
+    setTime("Select a filter")
   }, [selectedHive]);
 
   useEffect(() => {
@@ -104,7 +109,7 @@ export default function Dashboard() {
     }
   }
 
-  if (!hives) return <div className="w-full flex items-center justify-center h-20"><Spinner /></div>;
+  if (!hives ) return <div className="w-full flex items-center justify-center h-20"><Spinner /></div>;
   else if (!hives.length)
     return (
       <div className="h-screen flex items-center justify-center">
@@ -132,6 +137,7 @@ export default function Dashboard() {
             className="w-40 p-2 rounded bg-main dark:bg-white text-white dark:text-black"
             onChange={(e) => setTime(e.target.value)}
           >
+            <option>Select a filter</option>
             <option>Real time</option>
             <option>Today</option>
             <option>This month</option>
@@ -139,6 +145,8 @@ export default function Dashboard() {
           </select>
         </div>
       </div>
+      {loading ?
+      <div className="w-full flex items-center justify-center h-20"><Spinner /></div> :
       <div className="mt-5 w-full grid xl:grid-cols-2 grid-cols-1 gap-5">
 
         <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
@@ -148,7 +156,7 @@ export default function Dashboard() {
           <LineChart
             width={680}
             height={240}
-            data={HivesData.map((data) => ({date: moment(data.createdAt).format(time == "Today" ? "HH:mm" : 'DD/MM/YYYY'), outside: data.tempOutside?.toFixed(2), inside: data.tempTopRight && data.tempBottomLeft ? ((data.tempTopRight  + data.tempBottomLeft) / 2)?.toFixed(2) : 0}))}
+            data={HivesData.map((data) => ({date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM/YYYY'), outside: data.tempOutside?.toFixed(2), inside: data.tempTopRight && data.tempBottomLeft ? ((data.tempTopRight  + data.tempBottomLeft) / 2)?.toFixed(2) : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -190,7 +198,7 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={HivesData.map((data) => ({date: moment(data.createdAt).format(time == "Today" ? "HH:mm" : 'DD/MM/YYYY'), outside: data.humidityOutside?.toFixed(2), inside: data.humidityTopRight && data.humidityBottomLeft ? ((data.humidityBottomLeft  + data.humidityTopRight) / 2)?.toFixed(2) : 0}))}
+            data={HivesData.map((data) => ({date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM/YYYY'), outside: data.humidityOutside?.toFixed(2), inside: data.humidityTopRight && data.humidityBottomLeft ? ((data.humidityBottomLeft  + data.humidityTopRight) / 2)?.toFixed(2) : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -232,7 +240,7 @@ export default function Dashboard() {
           <BarChart
             width={650}
             height={240}
-            data={HivesData.map((data) => ({weight: data.weight?.toFixed(2), date: moment(data.createdAt).format(time == "Today" ? "HH:mm" : 'DD/MM/YYYY')}))}
+            data={HivesData.map((data) => ({weight: data.weight?.toFixed(2), date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM/YYYY')}))}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <XAxis dataKey="date" fontSize={12} />
@@ -250,7 +258,7 @@ export default function Dashboard() {
           <LineChart
             width={650}
             height={240}
-            data={HivesData.map((data) => ({pressure: data.pressure?.toFixed(2), date: moment(data.createdAt).format(time == "Today" ? "HH:mm" : 'DD/MM/YYYY')}))}
+            data={HivesData.map((data) => ({pressure: data.pressure?.toFixed(2), date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM/YYYY')}))}
             margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
@@ -270,7 +278,7 @@ export default function Dashboard() {
         <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
           <Hive3D magnetic_x={316} magnetic_y={-1515} magnetic_z={2058} />
         </div>
-      </div>
+      </div>}
     </div>
   );
 }
