@@ -159,7 +159,7 @@ export default function AdminUserPage() {
     
     if (!user) return <div className="w-full flex items-center justify-center h-screen"><Spinner /></div>
     return (
-        <div className="mt-10 px-4 sm:px-6 lg:px-8 flex flex-col gap container mx-auto">
+        <div className="mt-10 px-4 sm:px-6 lg:px-8 flex flex-col gap container mx-auto pb-10">
             <div className="flex flex-col gap-7 mb-6">
                 <p className="text-white text-3xl">{"Admin panel > User hives"}</p>
                 <div className="text-gray-100/80 border rounded-lg border-gray-400/80 px-3 py-2 w-fit hover:cursor-pointer" onClick={() => navigate(-1)}>

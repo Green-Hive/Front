@@ -5,6 +5,7 @@ import { Plus } from "iconoir-react";
 import { useForm, useFormState } from "react-hook-form";
 import { useSnackbarsContext } from "../context/snackbars.context";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/spinner";
 
 type FormData = {
     email: string;
@@ -123,6 +124,10 @@ export default function AdminPage() {
                     <p className="text-lg font-semibold text-white">Users registered</p>
                     <button className="bg-[#3C4C10] text-white px-5 py-2 rounded flex items-center justify-center gap-2" onClick={() => setOpen(true)}><Plus className="w-4 h-4" strokeWidth={3}/>Create user</button>
                 </div>
+                {!users.length 
+                    ? 
+                    <div className="w-full flex items-center justify-center h-20"><Spinner /></div>
+                    :
                 <div>
                     <table className="w-full">
                         <thead className="">
@@ -152,7 +157,7 @@ export default function AdminPage() {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div>}
             </div>
         </div>
     );

@@ -20,14 +20,14 @@ export default function CreateHiveModal(props: {setOpen: any, getHives: any, use
           await apiClient.createHive(name, description, props.userId)
           pushSnackbar({
             type: "success",
-            message: "You have been successfully registered.",
+            message: "Hive created.",
           });
             props.getHives();
             props.setOpen(false);
         } catch (error) {
           pushSnackbar({
             type: "error",
-            message: "Unable to register, please try again.",
+            message: "Unable to create hive.",
           });
           console.error(error);
         }

@@ -22,7 +22,10 @@ function login() {
   const { pushSnackbar } = useSnackbarsContext();
 
   useEffect(() => {
-    if (user && !loading) navigate("/");
+    if (user && !loading) {
+      if (user.role === "ADMIN") navigate("/admin");
+      else navigate("/");
+    }
   }, [user, loading]);
 
   const { register, handleSubmit, control } = useForm<FormData>({
