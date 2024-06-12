@@ -55,15 +55,15 @@ export default function Dashboard() {
       if (res) setLoading(false)
       if (res && res.data && res.data.length) {
         let data = res.data.reverse()
-          setGlobalData(data)
+        setGlobalData(data)
+        if (time === "Real time") setHivesData(data.splice(data.length-10, data.length))
       }
     }
   }
 
   useEffect(() => {
     if (time === "Real time") {
-      console.log(globalData.reverse().splice(0, 10).reverse())
-      setHivesData(globalData.reverse().splice(0, 10).reverse())
+      setHivesData(globalData.splice(globalData.length-10, globalData.length))
     }
     if (time === "Today") {
       const data = globalData.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'day'))
@@ -156,7 +156,7 @@ export default function Dashboard() {
           <LineChart
             width={680}
             height={240}
-            data={HivesData.map((data) => ({date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM/YYYY'), outside: data.tempOutside?.toFixed(2), inside: data.tempTopRight && data.tempBottomLeft ? ((data.tempTopRight  + data.tempBottomLeft) / 2)?.toFixed(2) : 0}))}
+            data={HivesData.map((data) => ({date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM'), outside: data.tempOutside?.toFixed(2), inside: data.tempTopRight && data.tempBottomLeft ? ((data.tempTopRight  + data.tempBottomLeft) / 2)?.toFixed(2) : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -198,7 +198,7 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={HivesData.map((data) => ({date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM/YYYY'), outside: data.humidityOutside?.toFixed(2), inside: data.humidityTopRight && data.humidityBottomLeft ? ((data.humidityBottomLeft  + data.humidityTopRight) / 2)?.toFixed(2) : 0}))}
+            data={HivesData.map((data) => ({date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM'), outside: data.humidityOutside?.toFixed(2), inside: data.humidityTopRight && data.humidityBottomLeft ? ((data.humidityBottomLeft  + data.humidityTopRight) / 2)?.toFixed(2) : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -240,7 +240,7 @@ export default function Dashboard() {
           <BarChart
             width={650}
             height={240}
-            data={HivesData.map((data) => ({weight: data.weight?.toFixed(2), date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM/YYYY')}))}
+            data={HivesData.map((data) => ({weight: data.weight?.toFixed(2), date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM')}))}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <XAxis dataKey="date" fontSize={12} />
@@ -258,7 +258,7 @@ export default function Dashboard() {
           <LineChart
             width={650}
             height={240}
-            data={HivesData.map((data) => ({pressure: data.pressure?.toFixed(2), date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM/YYYY')}))}
+            data={HivesData.map((data) => ({pressure: data.pressure?.toFixed(2), date: moment(data.createdAt).format((time == "Today" || time === "Real time") ? "HH:mm" : 'DD/MM')}))}
             margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
