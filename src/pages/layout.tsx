@@ -20,6 +20,7 @@ function NavBar() {
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
+    localStorage.removeItem("hive")
     await logout();
     navigate("/login"); // Redirect to the login page after logging out
   };

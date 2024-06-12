@@ -27,9 +27,10 @@ type Hive = {
 };
 
 export default function Dashboard() {
-  const [hives, setHives] = useState<Hive[] | null >(null); // An array of Hive objects
-  const [selectedHive, setSelectedHive] = useState<Hive | null>(null); // Nullable Hive object
+  const [hives, setHives] = useState<Hive[] | null >(null);
+  const [selectedHive, setSelectedHive] = useState<string | null>(localStorage.getItem("hive"));
   const [HivesData, setHivesData] = useState<{createdAt: Date, tempBottomLeft: number| null, tempTopRight: number| null, tempOutside: number| null, pressure: number| null, humidityBottomLeft: number| null, humidityTopRight: number| null, humidityOutside: number| null, weight: number| null, magnetic_x: number| null, magnetic_y: number| null, magnetic_z: number| null}[]>([]); // An array of Hive data [temperature, humidite, poids, pression
+  const [globalData, setGlobalData] = useState<{createdAt: Date, tempBottomLeft: number| null, tempTopRight: number| null, tempOutside: number| null, pressure: number| null, humidityBottomLeft: number| null, humidityTopRight: number| null, humidityOutside: number| null, weight: number| null, magnetic_x: number| null, magnetic_y: number| null, magnetic_z: number| null}[]>([]); // An array of Hive data [temperature, humidite, poids, pression
   const [time, setTime] = useState<string>('Real time');
   const { user } = useAuth();
 
@@ -37,30 +38,45 @@ export default function Dashboard() {
     if (user && user.id) {
       const res = await apiClient.getUserAccessibleHives(user.id);
       if (res && res.data && res.data.length) {
+        if (!localStorage.getItem("hive")) {
+          localStorage.setItem("hive", res.data[0].id)
+          setSelectedHive(res.data[0] || null);
+        }
+        else setSelectedHive(localStorage.getItem("hive"))
         setHives(res.data);
-        setSelectedHive(res.data[0] || null); // Ensure there is a default hive or null
       }
     }
   };
 
   const getAllHiveData = async () => {
     if (selectedHive) {
-      const res = await apiClient.getAllHiveData(selectedHive.id);
+      const res = await apiClient.getAllHiveData(selectedHive);
       if (res && res.data && res.data.length) {
-        let data = res.data
-        if (time === "Today") {
-          data = data.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'day'));
-          setHivesData(data);
-        }
-        else if (time === "This week") {
-          data = data.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'week'));
-          setHivesData(data);
-        }
-        else
-          setHivesData(data.splice(0, 10).reverse())
+        console.log(res.data)
+        let data = res.data.reverse()
+          setGlobalData(data)
+          setHivesData(data.splice(0, 10))
       }
     }
   }
+
+  useEffect(() => {
+    if (time === "Real time") {
+      setHivesData(globalData.splice(0, 10).reverse())
+    }
+    if (time === "Today") {
+      const data = globalData.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'day'))
+      setHivesData(data)
+    }
+    if (time === "This month") {
+      const data = globalData.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'month'))
+      setHivesData(data)
+    }
+    if (time === "This year") {
+      const data = globalData.filter((d:any) => moment(d.createdAt).isSame(new Date(), 'year'))
+      setHivesData(data)    
+    }
+  }, [time]);
 
   useEffect(() => {
     getAllHiveData();
@@ -74,10 +90,19 @@ export default function Dashboard() {
     if (time === "Real time") {
       const interval = setInterval(() => {
         getAllHiveData();
-      }, 3000);
+      }, 4000);
       return () => clearInterval(interval);
     }
+    
   }, [time, selectedHive]);
+
+  const onSelectHive = (id: string) => {
+    const newHive = hives?.find(hive => hive.id === id);
+    if (newHive) {
+      localStorage.setItem("hive", newHive.id)
+      setSelectedHive(newHive.id);
+    }
+  }
 
   if (!hives) return <div className="w-full flex items-center justify-center h-20"><Spinner /></div>;
   else if (!hives.length)
@@ -93,11 +118,8 @@ export default function Dashboard() {
         <div className="flex gap-4 items-center">
           <StatsReport className="text-white dark:text-black" />
           <select
-            value={selectedHive ? selectedHive.id : ''} // Use an empty string when selectedHive is null
-            onChange={(e) => {
-            const newHive = hives.find(hive => hive.id === e.target.value);
-            setSelectedHive(newHive || null); // Safely handle the case where no hive is found
-                      }}
+            value={selectedHive ? selectedHive : ''}
+            onChange={(e) => onSelectHive(e.target.value) }
             className="w-40 p-2 rounded bg-main dark:bg-white text-white dark:text-black"
           >
           {hives.map(hive => (
@@ -112,57 +134,55 @@ export default function Dashboard() {
           >
             <option>Real time</option>
             <option>Today</option>
-            <option>This week</option>
+            <option>This month</option>
+            <option>This year</option>
           </select>
         </div>
       </div>
-      {HivesData.length === 0 ? 
-        <div className="mt-5 text-white/80 w-full flex items-center justify-center">
-          <p>No data for this hive.</p>
-        </div>
-        :
       <div className="mt-5 w-full grid xl:grid-cols-2 grid-cols-1 gap-5">
 
         <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
           <p className="text-title dark:text-[#292929]">
             Température moyenne (°C)
           </p>
-          <AreaChart
+          <LineChart
             width={680}
             height={240}
-            data={HivesData.map((data) => ({date: moment(data.createdAt).format(time !== "This week" ? "HH:mm" : 'DD/MM/YYYY'), outside: data.tempOutside?.toFixed(2), inside: data.tempTopRight && data.tempBottomLeft ? ((data.tempTopRight  + data.tempBottomLeft) / 2)?.toFixed(2) : 0}))}
+            data={HivesData.map((data) => ({date: moment(data.createdAt).format(time == "Today" ? "HH:mm" : 'DD/MM/YYYY'), outside: data.tempOutside?.toFixed(2), inside: data.tempTopRight && data.tempBottomLeft ? ((data.tempTopRight  + data.tempBottomLeft) / 2)?.toFixed(2) : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
-              <linearGradient id="outside" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="outside" >
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="inside" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="inside" >
                 <stop offset="5%" stopColor="#B1F81A" stopOpacity={0.8} />
                 <stop offset="95%" stopColor="#B1F81A" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="date" fontSize={12} />
-            <YAxis domain={[15, 28]} fontSize={12} />
+            <YAxis domain={[-10, 40]} fontSize={12} />
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <Tooltip />
             <Legend />
-            <Area
+            <Line
               type="monotone"
+              dot={false}
               dataKey="inside"
               stroke="#B1F81A"
               fillOpacity={0.6}
               fill="url(#outside)"
             />
-            <Area
+            <Line
               type="monotone"
+              dot={false}
               dataKey="outside"
               stroke="#82ca9d"
               fillOpacity={0.2}
               fill="#82ca9d"
             />
-          </AreaChart>
+          </LineChart>
         </div>
 
         <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
@@ -170,7 +190,7 @@ export default function Dashboard() {
           <AreaChart
             width={680}
             height={240}
-            data={HivesData.map((data) => ({date: moment(data.createdAt).format(time !== "This week" ? "HH:mm" : 'DD/MM/YYYY'), outside: data.humidityOutside?.toFixed(2), inside: data.humidityTopRight && data.humidityBottomLeft ? ((data.humidityBottomLeft  + data.humidityTopRight) / 2)?.toFixed(2) : 0}))}
+            data={HivesData.map((data) => ({date: moment(data.createdAt).format(time == "Today" ? "HH:mm" : 'DD/MM/YYYY'), outside: data.humidityOutside?.toFixed(2), inside: data.humidityTopRight && data.humidityBottomLeft ? ((data.humidityBottomLeft  + data.humidityTopRight) / 2)?.toFixed(2) : 0}))}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>
@@ -184,7 +204,7 @@ export default function Dashboard() {
               </linearGradient>
             </defs>
             <XAxis dataKey="date" fontSize={12} />
-            <YAxis fontSize={12} />
+            <YAxis domain={[0, 100]} fontSize={12} />
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <Tooltip />
             <Legend />
@@ -212,11 +232,11 @@ export default function Dashboard() {
           <BarChart
             width={650}
             height={240}
-            data={HivesData.map((data) => ({weight: data.weight?.toFixed(2), date: moment(data.createdAt).format(time !== "This week" ? "HH:mm" : 'DD/MM/YYYY')}))}
+            data={HivesData.map((data) => ({weight: data.weight?.toFixed(2), date: moment(data.createdAt).format(time == "Today" ? "HH:mm" : 'DD/MM/YYYY')}))}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <XAxis dataKey="date" fontSize={12} />
-            <YAxis domain={[200, 800]} fontSize={12} />
+            <YAxis domain={[200, 4000]} fontSize={12} />
             <Tooltip />
             <Legend />
             <Bar dataKey="weight" fill="#B1F81A" />
@@ -230,16 +250,17 @@ export default function Dashboard() {
           <LineChart
             width={650}
             height={240}
-            data={HivesData.map((data) => ({pressure: data.pressure?.toFixed(2), date: moment(data.createdAt).format(time !== "This week" ? "HH:mm" : 'DD/MM/YYYY')}))}
+            data={HivesData.map((data) => ({pressure: data.pressure?.toFixed(2), date: moment(data.createdAt).format(time == "Today" ? "HH:mm" : 'DD/MM/YYYY')}))}
             margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
           >
             <CartesianGrid opacity={0.2} strokeDasharray="1 1" />
             <XAxis dataKey="date"  fontSize={12} />
-            <YAxis fontSize={12} domain={[800, 1100]} />
+            <YAxis fontSize={12} domain={[970, 1050]} />
             <Tooltip />
             <Legend />
             <Line
               type="monotone"
+              dot={false}
               dataKey="pressure"
               stroke="#B1F81A"
               strokeWidth={3}
@@ -247,9 +268,9 @@ export default function Dashboard() {
           </LineChart>
         </div>
         <div className="flex flex-col items-center gap-2 w-full p-3 bg-Light-gray dark:bg-[#E5E5E5] rounded h-[300px] overflow-y-auto">
-        <Hive3D magnetic_x={316} magnetic_y={-1515} magnetic_z={2058} />
+          <Hive3D magnetic_x={316} magnetic_y={-1515} magnetic_z={2058} />
         </div>
-      </div>}
+      </div>
     </div>
   );
 }
