@@ -151,7 +151,7 @@ export default function NotificationsPage() {
         console.error('An error occurred while fetching alerts:', error);
       }
     });
-  }, [user]);
+  }, []);
 
   if (!user.notified)
     return (
@@ -180,7 +180,7 @@ export default function NotificationsPage() {
         </div>
         {loading ? (
           <div className="flex justify-center items-center h-24 text-xl text-white">
-            <Spinner />
+            <Spinner/>
           </div>
         ) : (
           <div className="flex flex-col gap-5 mt-3">
