@@ -68,7 +68,7 @@ export default function Dashboard() {
       magnetic_z: number | null;
     }[]
   >([]); // An array of Hive data [temperature, humidite, poids, pression
-  const [time, setTime] = useState<string | null>(null);
+  const [time, setTime] = useState<string>("Today");
   const {user} = useAuth();
 
   // Baseline magnetic field values
