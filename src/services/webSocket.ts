@@ -1,6 +1,6 @@
 import Pusher from 'pusher-js';
 
-const pusher = new Pusher('89316c4952f82b5e2874', {
+const pusher = new Pusher('', {
   cluster: 'eu'
 });
 const channel = pusher.subscribe('my-channel');
